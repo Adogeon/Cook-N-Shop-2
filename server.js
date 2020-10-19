@@ -1,6 +1,6 @@
-require("dontevn").config();
+require("dotenv").config();
 
-const db = require("./models");
+const db = require("./database/models");
 const PORT = process.env.PORT || 3000;
 
 //setting up graphQLServer
@@ -17,8 +17,11 @@ const resolvers = {
     hello: (_, {name}) => `Hello ${name || 'World'}`,
   },
 }
+const context = {
+  db
+}
 
-const server = new GraphQLServer({typeDefs, resolvers})
+const server = new GraphQLServer({typeDefs, resolvers, context})
 
 //setting db sync options
 let syncOptions = {force: true};
@@ -29,7 +32,7 @@ if(process.env.NODE_ENV === "test") {
 
 //syncing out server before starting server
 db.sequelize.sync(syncOptions).then (() => {
-  server.start(() => console.log('Server is running on localhost:4000'))
+  server.start({port: PORT},({port}) => console.log('Server is running on localhost:$s', port))
 })
 
 
