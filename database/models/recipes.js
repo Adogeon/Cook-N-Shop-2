@@ -1,36 +1,41 @@
-module.exports = function(sequelize, DataTypes) {
+module.exports = function (sequelize, DataTypes) {
   var Recipe = sequelize.define("Recipe", {
+    id: {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV1,
+      primaryKey: true,
+    },
     name: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        len: [1, 100]
-      }
+        len: [1, 100],
+      },
     },
     description: {
       type: DataTypes.TEXT,
       allowNull: false,
       validate: {
-        len: [1]
-      }
+        len: [1],
+      },
     },
     instructions: {
       type: DataTypes.TEXT,
       allowNull: false,
       validate: {
-        len: [1]
-      }
+        len: [1],
+      },
     },
     imageURL: {
       type: DataTypes.STRING,
-      allowNull: true
-    }
+      allowNull: true,
+    },
   });
 
   //any ingredient can show up in many recipes
-  Recipe.associate = function(models) {
+  Recipe.associate = function (models) {
     Recipe.belongsToMany(models.Ingredient, {
-      through: "Measurement"
+      through: "Measurement",
       // foreignKey: {
       //   allowNull: false
       // },

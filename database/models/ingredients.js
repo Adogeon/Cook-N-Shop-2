@@ -1,18 +1,23 @@
-module.exports = function(sequelize, DataTypes) {
+module.exports = function (sequelize, DataTypes) {
   var Ingredient = sequelize.define("Ingredient", {
+    id: {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV1,
+      primaryKey: true,
+    },
     name: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        len: [1, 100]
-      }
-    }
+        len: [1, 100],
+      },
+    },
   });
 
   //many ingredients can be in a recipe
-  Ingredient.associate = function(models) {
+  Ingredient.associate = function (models) {
     Ingredient.belongsToMany(models.Recipe, {
-      through: "Measurement"
+      through: "Measurement",
       // foreignKey: {
       //   allowNull: false
       // },
