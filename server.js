@@ -27,8 +27,6 @@ if (process.env.NODE_ENV === "test") {
   syncOptions.force = true;
 }
 
-app.use("/", graphqlMiddleware());
-
 app.use("/playground", graphqlMiddleware({ graphiql: true }));
 //syncing out server before starting server
 /*db.sequelize.sync(syncOptions).then(() => {
