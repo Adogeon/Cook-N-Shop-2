@@ -1,10 +1,5 @@
 module.exports = function (sequelize, DataTypes) {
   var Ingredient = sequelize.define("Ingredient", {
-    id: {
-      type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV1,
-      primaryKey: true,
-    },
     name: {
       type: DataTypes.STRING,
       allowNull: false,
