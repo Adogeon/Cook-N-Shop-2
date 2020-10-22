@@ -3,7 +3,8 @@ const path = require("path");
 const Sequelize = require("sequelize");
 const basename = path.basename(module.filename);
 const env = process.env.NODE_ENV || "development";
-const config = require(__dirname + "/../config/config.json")[env];
+const configPath = path.join(__dirname, "../../config/config.json")
+const config = require(configPath)[env];
 let db = {};
 let sequelize;
 
@@ -18,6 +19,15 @@ if (config.use_env_variable) {
   );
 }
 
+sequelize
+  .authenticate()
+  .then(() => {
+    console.log('Connection has been established successfully.');
+  })
+  .catch(err => {
+  console.error('Unable to connect to the database:', err);
+});
+
 fs.readdirSync(__dirname)
   .filter(function (file) {
     return (
@@ -25,7 +35,7 @@ fs.readdirSync(__dirname)
     );
   })
   .forEach(function (file) {
-    let model = sequelize.import(path.join(__dirname, file));
+    let model = require(path.join(__dirname, file));
     db[model.name] = model;
   });
 
