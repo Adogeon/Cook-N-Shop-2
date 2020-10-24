@@ -1,6 +1,6 @@
 type Query {
   hello(name: String): String!
-  recipe: Recipe!
+  recipe(filter: String): Recipe!
 }
 
 type Recipe {
