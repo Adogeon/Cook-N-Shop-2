@@ -14,7 +14,7 @@ module.exports = function (sequelize, DataTypes) {
         len: [1],
       },
     },
-    instructions: {
+    instruction: {
       type: DataTypes.TEXT,
       allowNull: false,
       validate: {

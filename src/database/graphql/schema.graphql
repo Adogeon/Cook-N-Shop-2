@@ -1,9 +1,35 @@
 type Query {
   hello(name: String): String!
+<<<<<<< Updated upstream
   recipe: Recipe!
+=======
+  recipe(filter: String): RecipeResult!
+}
+
+type RecipeResult {
+  recipes: [Recipe!]!
+  count: Int!
+>>>>>>> Stashed changes
 }
 
 type Recipe {
-  id: String!
+  id: ID!
   name: String!
+  description: String!
+  instruction: String!
+  imageURL: String!
+  ingredient: [Measurement!]!
+}
+
+type Measurement {
+  recipeId: ID!
+  ingredientId: ID!
+  quantity: Int!
+  unitOfMeasure: String!
+}
+
+type Ingredient {
+  id: ID!
+  name: String!
+  recipe: [Recipe!]
 }
