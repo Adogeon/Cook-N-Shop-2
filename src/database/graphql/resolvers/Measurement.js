@@ -6,6 +6,6 @@ module.exports = {
     return parent.Measurement.quantity;
   },
   unitOfMeasure: (parent, args, context, info) => {
-    return parent.unitOfMeasure;
+    return parent.Measurement.unitOfMeasure;
   },
 };
