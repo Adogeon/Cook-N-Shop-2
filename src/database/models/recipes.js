@@ -9,17 +9,11 @@ module.exports = function (sequelize, DataTypes) {
     },
     description: {
       type: DataTypes.TEXT,
-      allowNull: false,
-      validate: {
-        len: [1],
-      },
+      allowNull: true,
     },
     instruction: {
       type: DataTypes.TEXT,
-      allowNull: false,
-      validate: {
-        len: [1],
-      },
+      allowNull: true,
     },
     imageURL: {
       type: DataTypes.STRING,
