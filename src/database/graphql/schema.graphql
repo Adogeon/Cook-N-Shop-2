@@ -4,9 +4,9 @@ type Query {
 }
 
 type Mutation {
-  newRecipe(input: RecipeInput): Recipe!
-  updateRecipe(id: ID, input: RecipeInput): Recipe!
-  deleteRecipe(id: ID): String!
+  newRecipe(input: RecipeInput): Recipe
+  updateRecipe(id: ID, input: RecipeInput): Recipe
+  deleteRecipe(id: ID): String
 }
 
 input RecipeInput {

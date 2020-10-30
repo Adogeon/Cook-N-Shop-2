@@ -10,7 +10,7 @@ module.export = {
         {},
       ],
     };
-    return context.db.User.findAndCountAll(where).then((result) => {
+    return context.Recipe.findAndCountAll(where).then((result) => {
       return {
         recipes: result.rows,
         count: result.count,

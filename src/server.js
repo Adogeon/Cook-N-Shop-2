@@ -10,8 +10,10 @@ const { graphqlHTTP } = require("express-graphql");
 const app = express();
 const schema = require("./database/graphql/index");
 const context = {
-  db,
-}
+  Ingredient: db.Ingredient,
+  Recipe: db.Recipe,
+  Measurement: db.Measurement,
+};
 
 const graphqlMiddleware = (options = {}) =>
   graphqlHTTP({
@@ -32,4 +34,3 @@ app.use("/playground", graphqlMiddleware({ graphiql: true }));
 db.sequelize.sync(syncOptions).then(() => {
   app.listen(PORT, () => console.log(`Server is running on localhost:${PORT}`));
 });
-

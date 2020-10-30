@@ -10,11 +10,7 @@ const schemaWithoutResolver = loadSchemaSync(
   }
 );
 
-const resolvers = {
-  Query: {
-    hello: (_, { name }) => `Hello ${name || "World"}`,
-  },
-};
+const resolvers = require("./resolvers")
 
 const schema = addResolversToSchema({
   schema: schemaWithoutResolver,
