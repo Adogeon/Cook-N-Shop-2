@@ -1,6 +1,6 @@
 require("dotenv").config();
 
-//const db = require("./database/models");
+const db = require("./database/models");
 const PORT = process.env.PORT || 3000;
 const express = require("express");
 const { graphqlHTTP } = require("express-graphql");
@@ -9,14 +9,14 @@ const { graphqlHTTP } = require("express-graphql");
 
 const app = express();
 const schema = require("./database/graphql/index");
-/*const context = {
+const context = {
   db,
-};*/
+}
 
 const graphqlMiddleware = (options = {}) =>
   graphqlHTTP({
     schema: schema,
-    context: {},
+    context,
     ...options,
   });
 
@@ -29,8 +29,7 @@ if (process.env.NODE_ENV === "test") {
 
 app.use("/playground", graphqlMiddleware({ graphiql: true }));
 //syncing out server before starting server
-/*db.sequelize.sync(syncOptions).then(() => {
+db.sequelize.sync(syncOptions).then(() => {
   app.listen(PORT, () => console.log(`Server is running on localhost:${PORT}`));
-});*/
+});
 
-app.listen(PORT, () => console.log(`Server is running on localhost:${PORT}`));
