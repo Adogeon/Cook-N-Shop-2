@@ -12,11 +12,26 @@ module.exports = {
      * }], {});
      */
     await queryInterface.bulkInsert(
-      "Ingredient",
+      "Ingredients",
       [
-        { id: 1, name: "Ingredient A" },
-        { id: 2, name: "Ingredient B" },
-        { id: 3, name: "Ingredient C" },
+        {
+          id: 1,
+          name: "Ingredient A",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          id: 2,
+          name: "Ingredient B",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          id: 3,
+          name: "Ingredient C",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
       ],
       {}
     );
@@ -29,6 +44,6 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
-    await queryInterface.bulkDelete("Ingredient", null, {});
+    await queryInterface.bulkDelete("Ingredients", null, {});
   },
 };

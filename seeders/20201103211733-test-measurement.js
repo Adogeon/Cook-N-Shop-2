@@ -12,7 +12,7 @@ module.exports = {
      * }], {});
      */
     await queryInterface.bulkInsert(
-      "Measurement",
+      "Measurements",
       [
         {
           id: 1,
@@ -20,6 +20,8 @@ module.exports = {
           ingredientId: 1,
           quantity: 2,
           unitOfMeasure: null,
+          createdAt: new Date(),
+          updatedAt: new Date(),
         },
         {
           id: 2,
@@ -27,6 +29,8 @@ module.exports = {
           ingredientId: 3,
           quantity: 4,
           unitOfMeasure: "g",
+          createdAt: new Date(),
+          updatedAt: new Date(),
         },
         {
           id: 3,
@@ -34,6 +38,8 @@ module.exports = {
           ingredientId: 1,
           quantity: 4,
           unitOfMeasure: null,
+          createdAt: new Date(),
+          updatedAt: new Date(),
         },
         {
           id: 4,
@@ -41,6 +47,8 @@ module.exports = {
           ingredientId: 2,
           quantity: 3,
           unitOfMeasure: "tablespoons",
+          createdAt: new Date(),
+          updatedAt: new Date(),
         },
       ],
       {}
@@ -54,6 +62,6 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
-    await queryInterface.bulkDelete("Measurement", null, {});
+    await queryInterface.bulkDelete("Measurements", null, {});
   },
 };

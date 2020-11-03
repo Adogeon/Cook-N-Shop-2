@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "pretest": "cross-env NODE_ENV=test npm run testMigrate",
-    "testMigrate": "sequelize db:migrate:all && sequelize db:seed:all",
+    "testMigrate": "sequelize db:migrate && sequelize db:seed:all --debug",
+    "resetTest": "cross-env NODE_ENV=test sequelize db:seed:undo:all && cross-env NODE_ENV=test sequelize db:migrate:undo:all --debug",
     "test": "NODE_ENV=test mocha test/**/*.spec.js",
     "start": "node src/server.js",
     "dev": "nodemon NODE_ENV=develop src/server.js",
