@@ -4,7 +4,9 @@
   "description": "New version of Cook-N-Shop using Fullstack with Vue, GraphQl, MySql, Express",
   "main": "server.js",
   "scripts": {
-    "test": "mocha test/**/*.spec.js",
+    "pretest": "cross-env NODE_ENV=test npm run testMigrate",
+    "testMigrate": "sequelize db:migrate",
+    "test": "NODE_ENV=test mocha test/**/*.spec.js",
     "start": "node src/server.js",
     "dev": "nodemon NODE_ENV=develop src/server.js",
     "debug": "node --nolazy src/server.js"
@@ -32,12 +34,14 @@
   "devDependencies": {
     "babel-eslint": "^10.1.0",
     "chai": "^4.2.0",
+    "cross-env": "^7.0.2",
     "eslint": "^7.11.0",
     "eslint-config-prettier": "^6.13.0",
     "eslint-plugin-prettier": "^3.1.4",
     "mocha": "^8.2.0",
     "nodemon": "^2.0.6",
     "prettier": "^2.1.2",
+    "sequelize-cli": "^6.2.0",
     "sequelize-mock": "^0.10.2",
     "sequelize-test-helpers": "^1.3.2",
     "sinon": "^9.2.0",
