@@ -1,0 +1,49 @@
+type Query {
+  hello(name: String): String!
+  recipe(filter: String): RecipeResult!
+}
+
+type Mutation {
+  newRecipe(input: RecipeInput): Recipe
+  updateRecipe(id: ID, input: RecipeInput): Recipe
+  deleteRecipe(id: ID): String
+}
+
+input RecipeInput {
+  name: String!
+  description: String
+  instruction: String
+  ingredients: [IngredientInput!]!
+}
+
+input IngredientInput {
+  name: String!
+  quantity: Int!
+  unitOfMeasure: String
+}
+
+type RecipeResult {
+  recipes: [Recipe!]!
+  count: Int!
+}
+
+type Recipe {
+  id: ID!
+  name: String!
+  description: String
+  instruction: String
+  imageURL: String
+  ingredient: [Measurement!]!
+}
+
+type Measurement {
+  ingredient: Ingredient!
+  quantity: Int!
+  unitOfMeasure: String
+}
+
+type Ingredient {
+  id: ID!
+  name: String!
+  recipe: [Recipe!]
+}

@@ -19,25 +19,14 @@ if (config.use_env_variable) {
   );
 }
 
-sequelize
-  .authenticate()
-  .then(() => {
-    console.log("Connection has been established successfully.");
-  })
-  .catch((err) => {
-    console.error("Unable to connect to the database:", err);
-  });
-
 fs.readdirSync(__dirname)
   .filter(function (file) {
     return (
-      file.indexOf(".") !== 0 &&
-      file !== basename &&
-      file.slice(-3) === ".js"
+      file.indexOf(".") !== 0 && file !== basename && file.slice(-3) === ".js"
     );
   })
   .forEach(function (file) {
-    let model = require(path.join(__dirname, file));
+    let model = require(path.join(__dirname, file))(sequelize, Sequelize);
     db[model.name] = model;
   });
 
