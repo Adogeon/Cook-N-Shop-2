@@ -18,6 +18,6 @@ describe("POST functionality", () => {
         expect(response.status).to.equal(200);
         expect(response.text).to.equal('{"data": "Hello World!"}')
       })
-    }),
+    })
   })
 });

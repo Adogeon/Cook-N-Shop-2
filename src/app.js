@@ -1,11 +1,11 @@
-const db = require("./database/models");
+const db = require("../models");
 const express = require("express");
 const { graphqlHTTP } = require("express-graphql");
 
 //setting up graphQLServer
 
 const app = express();
-const schema = require("./database/graphql/index");
+const schema = require("./graphql");
 const context = {
   Ingredient: db.Ingredient,
   Recipe: db.Recipe,

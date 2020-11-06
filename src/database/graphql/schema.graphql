@@ -1,9 +1,0 @@
-type Query {
-  hello(name: String): String!
-  recipe(filter: String): Recipe!
-}
-
-type Recipe {
-  id: String!
-  name: String!
-}
