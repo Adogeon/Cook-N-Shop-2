@@ -1,6 +1,6 @@
 const { Op } = require("sequelize");
 
-module.export = {
+module.exports = {
   hello: (parent, args, context, info) => {
     return args.name ? `Hello ${args.name}` : `Hello World!`;
   },
@@ -18,6 +18,11 @@ module.export = {
         recipes: result.rows,
         count: result.count,
       };
+    });
+  },
+  recipeById: (parent, args, context, info) => {
+    return context.Recipe.findOne({ where: { id: args.id } }).then((result) => {
+      return result;
     });
   },
 };

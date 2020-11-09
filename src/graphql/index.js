@@ -21,5 +21,5 @@ const schema = addResolversToSchema({
 });
 
 module.exports = {
-  default: schema,
+  schema,
 };

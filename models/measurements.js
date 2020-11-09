@@ -1,13 +1,13 @@
 module.exports = function (sequelize, DataTypes) {
   var Measurement = sequelize.define("Measurement", {
-    recipeId: {
+    RecipeId: {
       type: DataTypes.INTEGER,
       references: {
         model: "Recipe",
         key: "id",
       },
     },
-    ingredientId: {
+    IngredientId: {
       type: DataTypes.INTEGER,
       references: {
         model: "Ingredient",

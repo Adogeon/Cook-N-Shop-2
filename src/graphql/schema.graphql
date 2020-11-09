@@ -1,6 +1,7 @@
 type Query {
   hello(name: String): String!
   recipe(filter: String): RecipeResult!
+  recipeById(id: ID!): Recipe!
 }
 
 type Mutation {
