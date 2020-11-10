@@ -25,7 +25,7 @@ module.exports = {
       quantity: {
         type: Sequelize.INTEGER,
       },
-      unitOfMeasure: {
+      unit: {
         type: Sequelize.STRING,
         allowNull: true,
       },

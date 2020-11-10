@@ -46,45 +46,70 @@ describe("POST functionality", () => {
     });
 
     context("Query recipeById", () => {
+      const query = `
+        query findRecipeById($id: ID!) {
+          recipeById(id: $id) {
+            __typename
+            ... on ErrorResult {
+                code
+                message
+            }
+            ... on Recipe {
+              id
+              name
+              ingredient { 
+                name
+                quantity
+                unitOfMeasure
+              }
+            }
+          }
+        }`;
+
       it("should return data object if found", (done) => {
         request(app)
           .post("/playground")
           .send({
-            query: `{
-            recipeById(id: 1) {
-              id
-              name
-            }
-          }`,
+            query,
+            operationName: "findRecipeById",
+            variables: { id: "1" },
           })
           .then((response) => {
+            console.log(response.body);
             expect(response.status).to.equal(200);
             data = response.body.data.recipeById;
+            console.log(data);
             expect(data.id).to.be.equal("1");
             done();
           });
       });
-      it("should return error object if not found");
+      it("should return error code 'RECIPE_NOT_FOUND' if not found", (done) => {
+        request(app)
+          .post("/playground")
+          .send({
+            query,
+            operationName: "findRecipeById",
+            variables: { id: "4" },
+          })
+          .then((response) => {
+            expect(response.status).to.equal(200);
+            data = response.body.data.recipeById;
+            expect(data.code).to.be.equal("RECIPE_NOT_FOUND");
+            done();
+          });
+      });
     });
 
-    it("return correct result when query for the recipe with id 1", (done) => {
-      request(app)
-        .post("/playground")
-        .send({
-          query: `{recipe(filter: "Recipe A") {
-            recipes {
+    context("Query search", () => {
+      const query = `
+        query search($filter: String!) {
+          recipe(filter: $filter) {
+            ... on Recipe {
               id
               name
             }
-            count
-          }}`,
-        })
-        .then((response) => {
-          expect(response.status).to.equal(200);
-          data = response.body.data.recipe;
-          expect(data.recipes[0].id).to.be.equal("1");
-          done();
-        });
+          }
+        }`;
     });
   });
 });

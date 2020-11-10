@@ -5,7 +5,7 @@ module.exports = {
   quantity: (parent, args, context, info) => {
     return parent.Measurement.quantity;
   },
-  unitOfMeasure: (parent, args, context, info) => {
-    return parent.Measurement.unitOfMeasure;
+  unit: (parent, args, context, info) => {
+    return parent.Measurement.unit;
   },
 };

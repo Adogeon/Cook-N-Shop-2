@@ -1,7 +1,7 @@
 type Query {
   hello(name: String): String!
-  recipe(filter: String): RecipeResult!
-  recipeById(id: ID!): Recipe!
+  recipe(filter: String): QueryResult!
+  recipeById(id: ID!): QueryResult!
 }
 
 type Mutation {
@@ -20,13 +20,20 @@ input RecipeInput {
 input IngredientInput {
   name: String!
   quantity: Int!
-  unitOfMeasure: String
+  unit: String
 }
 
-type RecipeResult {
+type SearchResult {
   recipes: [Recipe!]!
   count: Int!
 }
+
+type ErrorResult {
+  code: String!
+  message: String
+}
+
+union QueryResult = Recipe | ErrorResult | SearchResult
 
 type Recipe {
   id: ID!
@@ -40,7 +47,7 @@ type Recipe {
 type Measurement {
   ingredient: Ingredient!
   quantity: Int!
-  unitOfMeasure: String
+  unit: String
 }
 
 type Ingredient {

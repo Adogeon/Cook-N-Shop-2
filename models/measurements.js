@@ -17,7 +17,7 @@ module.exports = function (sequelize, DataTypes) {
     quantity: {
       type: DataTypes.DECIMAL(10, 2),
     },
-    unitOfMeasure: {
+    unit: {
       type: DataTypes.STRING,
       allowNull: true,
     },

@@ -1,4 +1,5 @@
 const { Op } = require("sequelize");
+const Ingredients = require("./Ingredients");
 
 module.exports = {
   hello: (parent, args, context, info) => {
@@ -21,8 +22,23 @@ module.exports = {
     });
   },
   recipeById: (parent, args, context, info) => {
-    return context.Recipe.findOne({ where: { id: args.id } }).then((result) => {
-      return result;
+    return context.Recipe.findOne({
+      where: { id: args.id },
+      include: Ingredient,
+    }).then((result) => {
+      console.log(result);
+      if (result) {
+        return {
+          __typename: "Recipe",
+          ...result.dataValues,
+        };
+      } else {
+        return {
+          __typename: "ErrorResult",
+          code: "RECIPE_NOT_FOUND",
+          message: `The recipe with id ${args.id} does not exist.`,
+        };
+      }
     });
   },
 };

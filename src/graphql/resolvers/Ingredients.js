@@ -1,5 +1,7 @@
 module.exports = {
   recipe: (parent, args, context, info) => {
-    return parent.getRecipes();
+    return context.Ingredients.findOne({
+      where: { id: parent.id },
+    }).getRecipes();
   },
 };

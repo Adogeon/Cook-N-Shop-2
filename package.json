@@ -8,6 +8,7 @@
     "testMigrate": "sequelize db:migrate && sequelize db:seed:all --debug",
     "resetTest": "cross-env NODE_ENV=test sequelize db:seed:undo:all && cross-env NODE_ENV=test sequelize db:migrate:undo:all --debug",
     "test": "cross-env NODE_ENV=test mocha test/integration/server.spec.js",
+    "testAll": "cross-env NODE_ENV=test mocha test/**/**.spec.js",
     "start": "node src/server.js",
     "dev": "nodemon NODE_ENV=develop src/server.js",
     "debug": "node --nolazy src/server.js"
