@@ -1,6 +1,6 @@
 type Query {
   hello(name: String): String!
-  recipe(filter: String): QueryResult!
+  allRecipe(filter: String): SearchResult!
   recipeById(id: ID!): QueryResult!
 }
 
@@ -33,7 +33,7 @@ type ErrorResult {
   message: String
 }
 
-union QueryResult = Recipe | ErrorResult | SearchResult
+union QueryResult = Recipe | ErrorResult
 
 type Recipe {
   id: ID!
@@ -41,7 +41,7 @@ type Recipe {
   description: String
   instruction: String
   imageURL: String
-  ingredient: [Measurement!]!
+  ingredients: [Measurement!]!
 }
 
 type Measurement {
@@ -53,5 +53,5 @@ type Measurement {
 type Ingredient {
   id: ID!
   name: String!
-  recipe: [Recipe!]
+  recipes: [Recipe!]
 }

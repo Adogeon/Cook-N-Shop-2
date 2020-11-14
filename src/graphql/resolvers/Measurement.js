@@ -1,11 +1,11 @@
 module.exports = {
   ingredient: (parent, args, context, info) => {
-    return parent.name;
+    return parent.dataValues;
   },
   quantity: (parent, args, context, info) => {
-    return parent.Measurement.quantity;
+    return parent.Measurement.dataValues.quantity;
   },
   unit: (parent, args, context, info) => {
-    return parent.Measurement.unit;
+    return parent.Measurement.dataValues.unit;
   },
 };

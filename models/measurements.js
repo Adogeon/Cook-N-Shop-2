@@ -6,6 +6,7 @@ module.exports = function (sequelize, DataTypes) {
         model: "Recipe",
         key: "id",
       },
+      primaryKey: true,
     },
     IngredientId: {
       type: DataTypes.INTEGER,
@@ -13,6 +14,7 @@ module.exports = function (sequelize, DataTypes) {
         model: "Ingredient",
         key: "id",
       },
+      primaryKey: true,
     },
     quantity: {
       type: DataTypes.DECIMAL(10, 2),

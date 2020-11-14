@@ -10,6 +10,7 @@
 const { expect } = require("chai");
 const request = require("supertest");
 const { app, db } = require("../../src/app");
+const { ingredients } = require("../../src/graphql/resolvers/Recipe");
 
 describe("POST functionality", () => {
   context("connection test prior to connecting to database", () => {
@@ -40,9 +41,9 @@ describe("POST functionality", () => {
 
   context("connection test with the test database", () => {
     before(async () => {
-      await db.sequelize.sync({ logging: false });
+      //await db.sequelize.sync({ logging: false });
       //letting sequelize to log as needed
-      //await db.sequelize.sync();
+      await db.sequelize.sync();
     });
 
     context("Query recipeById", () => {
@@ -57,10 +58,12 @@ describe("POST functionality", () => {
             ... on Recipe {
               id
               name
-              ingredient { 
-                name
+              ingredients {
+                ingredient {
+                  name
+                }
                 quantity
-                unitOfMeasure
+                unit
               }
             }
           }
@@ -75,11 +78,10 @@ describe("POST functionality", () => {
             variables: { id: "1" },
           })
           .then((response) => {
-            console.log(response.body);
             expect(response.status).to.equal(200);
-            data = response.body.data.recipeById;
-            console.log(data);
+            const data = response.body.data.recipeById;
             expect(data.id).to.be.equal("1");
+            expect(data.ingredients).to.be.an("array").with.length(2);
             done();
           });
       });
@@ -89,11 +91,11 @@ describe("POST functionality", () => {
           .send({
             query,
             operationName: "findRecipeById",
-            variables: { id: "4" },
+            variables: { id: "99" },
           })
           .then((response) => {
             expect(response.status).to.equal(200);
-            data = response.body.data.recipeById;
+            const data = response.body.data.recipeById;
             expect(data.code).to.be.equal("RECIPE_NOT_FOUND");
             done();
           });
@@ -103,13 +105,74 @@ describe("POST functionality", () => {
     context("Query search", () => {
       const query = `
         query search($filter: String!) {
-          recipe(filter: $filter) {
-            ... on Recipe {
+          allRecipe(filter: $filter) {
+            recipes {
               id
               name
             }
+            count
           }
         }`;
+      it("should return an array of result", (done) => {
+        request(app)
+          .post("/playground")
+          .send({
+            query,
+            operationName: "search",
+            variables: { filter: "Recipe" },
+          })
+          .then((response) => {
+            expect(response.status).to.equal(200);
+            const data = response.body.data.allRecipe;
+            expect(data.count).to.be.equal(2);
+            expect(data.recipes).to.be.an("array").with.length(2);
+            done();
+          });
+      });
+      it("should return empty array if there is no result", (done) => {
+        request(app)
+          .post("/playground")
+          .send({
+            query,
+            operationName: "search",
+            variables: { filter: "asdfed" },
+          })
+          .then((response) => {
+            expect(response.status).to.be.equal(200);
+            const data = response.body.data.allRecipe;
+            expect(data.count).to.be.equal(0);
+            expect(data.recipes).to.be.an("array").with.length(0);
+            done();
+          });
+      });
+    });
+
+    context("Mutation newRecipe", () => {
+      const query = ` mutation createRecipe ($newRecipe: RecipeInput) {
+        newRecipe(input: $newRecipe) {
+          id
+          name
+        }
+      }`;
+
+      it("should return a new recipe when sucessful", () => {
+        request(app)
+          .post("/playground")
+          .send({
+            query,
+            operationName: "createRecipe",
+            variables: {
+              newRecipe: {
+                name: "Omellete",
+                ingredients: [],
+              },
+            },
+          })
+          .then((response) => {
+            expect(response.status).to.be.equal(200);
+            expect(response.body.newRecipe.name).to.be.equal("Omellete");
+          });
+      });
     });
   });
 });

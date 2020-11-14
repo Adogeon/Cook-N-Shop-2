@@ -1,36 +1,36 @@
 const { Op } = require("sequelize");
-const Ingredients = require("./Ingredients");
 
 module.exports = {
   hello: (parent, args, context, info) => {
     return args.name ? `Hello ${args.name}` : `Hello World!`;
   },
-  recipe: (parent, args, context, info) => {
+  allRecipe: (parent, args, context, info) => {
     const where = {
       [Op.or]: [
-        args.filter,
         { name: { [Op.substring]: args.filter } },
         { description: { [Op.substring]: args.filter } },
         {},
       ],
     };
-    return context.Recipe.findAndCountAll(where).then((result) => {
-      return {
-        recipes: result.rows,
-        count: result.count,
-      };
-    });
+    return context.Recipe.findAndCountAll({ where })
+      .then((result) => {
+        return {
+          recipes: result.rows,
+          count: result.count,
+        };
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   },
   recipeById: (parent, args, context, info) => {
     return context.Recipe.findOne({
       where: { id: args.id },
-      include: Ingredient,
-    }).then((result) => {
-      console.log(result);
+    }).then(async (result) => {
       if (result) {
         return {
           __typename: "Recipe",
-          ...result.dataValues,
+          ...result,
         };
       } else {
         return {
