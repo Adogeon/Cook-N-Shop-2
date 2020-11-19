@@ -174,5 +174,59 @@ describe("POST functionality", () => {
           });
       });
     });
+
+    context("Mutation updateRecipe", () => {
+      const query = ` mutation updateRecipe ($id: Id, $updateRecipe: RecipeInput) {
+        updateRecipe(id: $id, input $updateRecipe) {
+          id
+          name
+          ingredients
+        }
+      }`;
+
+      it("should return a new recipe when sucessful", () => {
+        request(app)
+          .post("/playground")
+          .send({
+            query,
+            operationName: "updateRecipe",
+            variables: {
+              id: "3",
+              updateRecipe: {
+                name: "Omellete au fromage",
+                ingredients: [
+                  {
+                    name: "Eggs",
+                    quantity: 4,
+                    unit: null,
+                  },
+                  {
+                    name: "Butter",
+                    quantity: 2,
+                    unit: "tablespoons",
+                  },
+                  {
+                    name: "Parmesan Cheese",
+                    quantity: 1,
+                    unit: "ounce",
+                  },
+                  {
+                    name: "Gruyere Cheese",
+                    quantity: 2,
+                    unit: "ounces",
+                  },
+                ],
+              },
+            },
+          })
+          .then((response) => {
+            expect(response.status).to.be.equal(200);
+            expect(response.body.updateRecipe.name).to.be.equal("Omellete");
+            expect(response.body.updateRecipe.ingredients[0].name).to.be.equal(
+              "Egg"
+            );
+          });
+      });
+    });
   });
 });
