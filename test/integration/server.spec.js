@@ -178,7 +178,6 @@ describe("POST functionality", () => {
     context("Mutation updateRecipe", () => {
       const query = ` mutation updateRecipe ($id: ID, $updateRecipe: RecipeInput) {
         updateRecipe(id: $id, input: $updateRecipe) {
-          id
           name
           ingredients {
             ingredient {

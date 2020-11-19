@@ -9,9 +9,10 @@ module.exports = {
   },
   updateRecipe: async (parent, args, context, info) => {
     try {
-      const recipeRecord = await context.Recipe.update(args.input, {
+      const recipeRecord = await context.Recipe.findOne({
         where: { id: args.id },
       });
+      await recipeRecord.update(args.input);
       return recipeRecord;
     } catch (err) {
       console.error(err);
