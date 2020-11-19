@@ -176,11 +176,17 @@ describe("POST functionality", () => {
     });
 
     context("Mutation updateRecipe", () => {
-      const query = ` mutation updateRecipe ($id: Id, $updateRecipe: RecipeInput) {
-        updateRecipe(id: $id, input $updateRecipe) {
+      const query = ` mutation updateRecipe ($id: ID, $updateRecipe: RecipeInput) {
+        updateRecipe(id: $id, input: $updateRecipe) {
           id
           name
-          ingredients
+          ingredients {
+            ingredient {
+              name
+            }
+            quantity
+            unit
+          }
         }
       }`;
 
@@ -220,11 +226,13 @@ describe("POST functionality", () => {
             },
           })
           .then((response) => {
+            console.log(response.body);
+            console.log(response.text);
             expect(response.status).to.be.equal(200);
             expect(response.body.updateRecipe.name).to.be.equal("Omellete");
-            expect(response.body.updateRecipe.ingredients[0].name).to.be.equal(
-              "Egg"
-            );
+            expect(
+              response.body.updateRecipe.ingredients[0].ingredient.name
+            ).to.be.equal("Egg");
           });
       });
     });
