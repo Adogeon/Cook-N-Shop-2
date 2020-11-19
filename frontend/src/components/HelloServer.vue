@@ -1,7 +1,7 @@
 <template>
   <section id="class-server">
-    <p> - Hello Server</p>
-    <p>{{greeting}}</p>
+    <p>- Hello Server</p>
+    <p>{{ greeting }}</p>
   </section>
 </template>
 
@@ -11,7 +11,7 @@ export default {
   data: () => {
     return {
       greeting: "Hello world"
-    }
+    };
   }
-}
+};
 </script>
