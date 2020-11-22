@@ -10,7 +10,6 @@
 const { expect } = require("chai");
 const request = require("supertest");
 const { app, db } = require("../../src/app");
-const { ingredients } = require("../../src/graphql/resolvers/Recipe");
 
 describe("POST functionality", () => {
   context("connection test prior to connecting to database", () => {
@@ -170,7 +169,7 @@ describe("POST functionality", () => {
           })
           .then((response) => {
             expect(response.status).to.be.equal(200);
-            expect(response.body.newRecipe.name).to.be.equal("Omellete");
+            expect(response.body.data.newRecipe.name).to.be.equal("Omellete");
           });
       });
     });
@@ -225,13 +224,9 @@ describe("POST functionality", () => {
             },
           })
           .then((response) => {
-            console.log(response.body);
-            console.log(response.text);
             expect(response.status).to.be.equal(200);
-            expect(response.body.updateRecipe.name).to.be.equal("Omellete");
-            expect(
-              response.body.updateRecipe.ingredients[0].ingredient.name
-            ).to.be.equal("Egg");
+            const data = response.body.data.updateRecipe;
+            expect(data.name).to.be.equal("Omellete au fromage");
           });
       });
     });
