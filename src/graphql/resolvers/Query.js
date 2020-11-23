@@ -5,13 +5,15 @@ module.exports = {
     return args.name ? `Hello ${args.name}` : `Hello World!`;
   },
   allRecipe: (parent, args, context, info) => {
-    const where = {
-      [Op.or]: [
-        { name: { [Op.substring]: args.filter } },
-        { description: { [Op.substring]: args.filter } },
-        {},
-      ],
-    };
+    let where = {};
+    if (args.filter) {
+      where = {
+        [Op.or]: [
+          { name: { [Op.substring]: args.filter } },
+          { description: { [Op.substring]: args.filter } },
+        ],
+      };
+    }
     return context.Recipe.findAndCountAll({ where })
       .then((result) => {
         return {

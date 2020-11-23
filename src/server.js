@@ -1,12 +1,12 @@
 require("dotenv").config();
 
 const PORT = process.env.PORT || 3000;
-const app,{db} = require("./app");
+const { app, db } = require("./app");
 
 //setting db sync options
 let syncOptions = { force: true };
 
-if (process.env.NODE_ENV === "test") {
+if (process.env.NODE_ENV === "test" || "development") {
   syncOptions.force = false;
 }
 
