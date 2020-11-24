@@ -1,4 +1,4 @@
-export const getAllRecipes = () => {
+export const getOneRecipeById = () => {
   return {
     data: [
       {
@@ -14,7 +14,7 @@ export const getAllRecipes = () => {
   };
 };
 
-export const getAllRecipesGraph = async () => {
+export const getAllRecipes = async () => {
   const query = `query {
     allRecipe {
       recipes {
