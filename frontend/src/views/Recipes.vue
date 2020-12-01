@@ -38,7 +38,7 @@ export default {
       this.loading = false
     }
   },
-  component: RecipeCard
+  
 }
 </script>
 

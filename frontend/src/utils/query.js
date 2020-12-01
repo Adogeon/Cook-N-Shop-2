@@ -1,17 +1,41 @@
-export const getOneRecipeById = () => {
-  return {
-    data: [
-      {
-        name: "Recipe A",
-      },
-      {
-        name: "Recipe B",
-      },
-      {
-        name: "Recipe C",
-      },
-    ],
-  };
+export const getOneRecipeById = async (recipeId) => {
+  const query = `
+    query findRecipeById($id: ID!) {
+      recipeById(id: $id) {
+        __typename
+        ... on ErrorResult {
+          code
+          message
+        }
+        ... on Recipe {
+          id
+          name
+          ingredients {
+            ingredient {
+            name
+          }
+            quantity
+            unit
+          }
+        }
+      }
+    }`;
+
+  const response = await fetch("/api/playground", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify({
+      query,
+      variables: { id: recipeId },
+    }),
+  });
+
+  const result = await response.json();
+  console.log("data result: ", result);
+  return result.data.recipeById;
 };
 
 export const getAllRecipes = async () => {
