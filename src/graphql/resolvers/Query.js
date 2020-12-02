@@ -25,6 +25,23 @@ module.exports = {
         console.error(error);
       });
   },
+  allIngredient: (parent, args, context, info) => {
+    let where = {};
+    if (args.filter) {
+      where = { name: { [Op.substring]: args.filter } };
+    }
+
+    return context.Ingredient.findAndCountAll({ where })
+      .then((result) => {
+        return {
+          Ingredients: result.rows,
+          count: result.count,
+        };
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  },
   recipeById: (parent, args, context, info) => {
     return context.Recipe.findOne({
       where: { id: args.id },

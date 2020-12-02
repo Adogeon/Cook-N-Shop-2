@@ -1,6 +1,6 @@
 <template>
   <div> This is the detail page for recipe with id {{$route.params.id}}</div>
-  <section class="recipe-intro">
+  <section id="recipe-intro">
     <h1>{{recipe.name}}</h1>
     <p>{{recipe.description}}</p>
   </section>
@@ -59,5 +59,13 @@ export default {
 
 #ingr-sec {
   border-right: 3px solid black;
+}
+
+#recipe-intro > h1 {
+  color:  #42b983
+}
+
+#recipe-intro > p {
+  
 }
 </style>
