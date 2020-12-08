@@ -30,6 +30,16 @@
         </div>
       </div>
 
+      <div class="instructions">
+        <h3>Steps</h2>
+        <div class="ingruction-input">
+          <div>
+            <label for="steps"> Step 1 </label>
+            <input id="steps" type="text"/>
+          </div> 
+        </div>
+      </div>
+
     </form>
   </div>
 </template>
