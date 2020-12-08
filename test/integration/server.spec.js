@@ -45,7 +45,7 @@ describe("POST functionality", () => {
       await db.sequelize.sync();
     });
 
-    context("Query recipeById", () => {
+    describe("Query recipeById", () => {
       const query = `
         query findRecipeById($id: ID!) {
           recipeById(id: $id) {
@@ -101,7 +101,7 @@ describe("POST functionality", () => {
       });
     });
 
-    context("Query search", () => {
+    describe("Query search", () => {
       const query = `
         query search($filter: String!) {
           allRecipe(filter: $filter) {
@@ -146,15 +146,22 @@ describe("POST functionality", () => {
       });
     });
 
-    context("Mutation newRecipe", () => {
+    describe("Mutation newRecipe", () => {
       const query = ` mutation createRecipe ($newRecipe: RecipeInput) {
         newRecipe(input: $newRecipe) {
           id
           name
+          ingredients {
+            ingredient {
+              name
+            }
+            quantity
+            unit
+          }
         }
       }`;
 
-      it("should return a new recipe when sucessful", () => {
+      it("should return a new recipe when sucessful", (done) => {
         request(app)
           .post("/playground")
           .send({
@@ -163,18 +170,35 @@ describe("POST functionality", () => {
             variables: {
               newRecipe: {
                 name: "Omellete",
-                ingredients: [],
+                ingredients: [
+                  {
+                    name: "Eggs",
+                    quantity: 4,
+                    unit: null,
+                  },
+                  {
+                    name: "Butter",
+                    quantity: 2,
+                    unit: "tablespoons",
+                  },
+                ],
               },
             },
           })
           .then((response) => {
+            console.log(response.body);
+            console.log(response.body.data.newRecipe);
             expect(response.status).to.be.equal(200);
             expect(response.body.data.newRecipe.name).to.be.equal("Omellete");
+            expect(response.body.data.newRecipe.ingredients)
+              .to.be.an("array")
+              .with.lengthOf(2);
+            done();
           });
       });
     });
 
-    context("Mutation updateRecipe", () => {
+    describe("Mutation updateRecipe", () => {
       const query = ` mutation updateRecipe ($id: ID, $updateRecipe: RecipeInput) {
         updateRecipe(id: $id, input: $updateRecipe) {
           name
@@ -188,7 +212,7 @@ describe("POST functionality", () => {
         }
       }`;
 
-      it("should return a new recipe when sucessful", () => {
+      it("should return a new recipe when sucessful", (done) => {
         request(app)
           .post("/playground")
           .send({
@@ -227,6 +251,8 @@ describe("POST functionality", () => {
             expect(response.status).to.be.equal(200);
             const data = response.body.data.updateRecipe;
             expect(data.name).to.be.equal("Omellete au fromage");
+            expect(data.ingredients).to.be.an("array");
+            done();
           });
       });
     });

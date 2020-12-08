@@ -26,7 +26,7 @@ middleLog = (req, res, next) => {
   next();
 };
 
-app.use(middleLog);
+//app.use(middleLog);
 
 app.use("/playground", graphqlMiddleware({ graphiql: true }));
 

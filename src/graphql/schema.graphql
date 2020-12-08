@@ -1,13 +1,14 @@
 type Query {
   hello(name: String): String!
   allRecipe(filter: String): SearchResult!
+  allIngredient(filter: String): [Ingredient!]!
   recipeById(id: ID!): QueryResult!
 }
 
 type Mutation {
-  newRecipe(input: RecipeInput): Recipe
-  updateRecipe(id: ID, input: RecipeInput): Recipe
-  deleteRecipe(id: ID): String
+  newRecipe(input: RecipeInput): Recipe!
+  updateRecipe(id: ID, input: RecipeInput): Recipe!
+  deleteRecipe(id: ID): String!
 }
 
 input RecipeInput {

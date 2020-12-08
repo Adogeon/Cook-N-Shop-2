@@ -33,10 +33,7 @@ module.exports = {
 
     return context.Ingredient.findAndCountAll({ where })
       .then((result) => {
-        return {
-          Ingredients: result.rows,
-          count: result.count,
-        };
+        return result;
       })
       .catch((error) => {
         console.error(error);

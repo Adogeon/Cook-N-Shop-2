@@ -19,12 +19,16 @@ const addingIngredients = async (ingredientList, context, recipeId) => {
 module.exports = {
   newRecipe: async (parent, args, context, info) => {
     try {
-      const newRecipe = await context.Recipe.create(args.input);
+      let newRecipe = await context.Recipe.create(args.input);
 
       if (args.input.ingredients) {
         await addingIngredients(args.input.ingredients, context, newRecipe.id);
       }
 
+      newRecipe = await context.Recipe.findOne({
+        where: { id: newRecipe.id },
+        include: context.Ingredient,
+      });
       return newRecipe;
     } catch (err) {
       console.error(err);
