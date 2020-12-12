@@ -39,6 +39,12 @@ const routes = [
     path: "/recipe/new",
     name: "NewRecipe",
     component: () => import("../views/NewRecipe.vue"),
+    children: [
+      { path: "intro" },
+      { path: "ingredients" },
+      { path: "instructions" },
+      { path: "final" },
+    ],
   },
 ];
 

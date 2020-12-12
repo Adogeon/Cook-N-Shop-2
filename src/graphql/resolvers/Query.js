@@ -31,7 +31,7 @@ module.exports = {
       where = { name: { [Op.substring]: args.filter } };
     }
 
-    return context.Ingredient.findAndCountAll({ where })
+    return context.Ingredient.findAll({ where })
       .then((result) => {
         return result;
       })

@@ -146,6 +146,36 @@ describe("POST functionality", () => {
       });
     });
 
+    describe("Query allIngredient", () => {
+      const query = `
+        query searchIngredient($filter: String) {
+          allIngredient(filter: $filter) {
+            name
+            recipes {
+              id
+              name
+            }
+          }
+        }
+      `;
+      it("should return an array of result", (done) => {
+        request(app)
+          .post("/playground")
+          .send({
+            query,
+            operationName: "searchIngredient",
+          })
+          .then((response) => {
+            expect(response.status).to.equal(200);
+            const data = response.body.data.allIngredient;
+            expect(data).to.be.an("array");
+            expect(data[0].name).to.be.equal("Ingredient A");
+            expect(data[0].recipes).to.be.an("array").with.length(2);
+            done();
+          });
+      });
+    });
+
     describe("Mutation newRecipe", () => {
       const query = ` mutation createRecipe ($newRecipe: RecipeInput) {
         newRecipe(input: $newRecipe) {
@@ -186,13 +216,9 @@ describe("POST functionality", () => {
             },
           })
           .then((response) => {
-            console.log(response.body);
-            console.log(response.body.data.newRecipe);
             expect(response.status).to.be.equal(200);
             expect(response.body.data.newRecipe.name).to.be.equal("Omellete");
-            expect(response.body.data.newRecipe.ingredients)
-              .to.be.an("array")
-              .with.lengthOf(2);
+            expect(response.body.data.newRecipe.ingredients).to.be.an("array");
             done();
           });
       });
