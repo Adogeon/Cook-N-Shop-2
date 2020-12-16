@@ -39,26 +39,6 @@ const routes = [
     path: "/recipe/new",
     name: "NewRecipe",
     component: () => import("../views/NewRecipe.vue"),
-    children: [
-      {
-        path: "intro",
-        component: () => import("../components/NewRecipeComponents/intro.vue"),
-      },
-      {
-        path: "ingredients",
-        component: () =>
-          import("../components/NewRecipeComponents/ingredients.vue"),
-      },
-      {
-        path: "instructions",
-        component: () =>
-          import("../components/NewRecipeComponents/instructions.vue"),
-      },
-      {
-        path: "final",
-        component: () => import("../components/NewRecipeComponents/final.vue"),
-      },
-    ],
   },
 ];
 

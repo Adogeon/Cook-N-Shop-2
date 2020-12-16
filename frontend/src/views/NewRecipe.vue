@@ -1,51 +1,49 @@
 <template>
   <p> This is a page for creating new recipe </p>
-  <div id="new-recipe-form">
-    <form>
-      <label for="recipe-name"> Recipe Name </label>
-      <input id="recipe-name" v-model="name" type="text">
-      <p>Recipe name is: {{ name}} </p>
-
-      <label for="recipe-desc"> Description </label>
-      <input id="recipe-desc" v-model="description" type="text">
-      <p>Recipe description is: {{ description}} </p>
-
-      <hr/>
-
-      <div class="ingredients">
-        <h3>Ingredients</h2>
-        <div class="ingredient-input">
-          <div>
-            <label for="ingredient-name"> Name </label>
-            <input id="ingredient-name" type="text"/>
-          </div>
-          <div>
-            <label for="ingredient-quantity"> Quantity </label>
-            <input id="ingredient-quantity" type="text"/>
-          </div>
-          <div>
-            <label for="ingredient-unit"> Unit </label>
-            <input id="ingredient-unit" type="text"/>
-          </div> 
-        </div>
-      </div>
-
-      <div class="instructions">
-        <h3>Steps</h2>
-        <div class="ingruction-input">
-          <div>
-            <label for="steps"> Step 1 </label>
-            <input id="steps" type="text"/>
-          </div> 
-        </div>
-      </div>
-
-    </form>
+  <div>
+    <button
+      v-for="tab in tabs"
+      v-bind:key="tab.name"
+      v-bind:class="['tab-button', {active:currentTab.name}]"
+      v-on:click="currentTab = tab"
+    >
+      {{ tab.name}}
+    </button>
   </div>
-  <router-view></router-view>
+  <p>{{name}}</p>
+  <p>{{instructions}}</p>
+  <component :is="currentTab.component" v-model="currentTab.model"></component>
+
 </template>
 
 <script>
+import RecipeIntro from "../components/NewRecipeComponents/recipe-intro.vue";
+import RecipeIngredients from "../components/NewRecipeComponents/recipe-ingredients.vue";
+import RecipeInstructions from "../components/NewRecipeComponents/recipe-instructions.vue";
+import RecipeReview from "../components/NewRecipeComponents/recipe-final.vue";
+
+const tabs = [
+  {
+    name: "Intro",
+    component: RecipeIntro
+    model:[
+      'name', 'description'
+    ]
+  },
+  {
+    name: "Ingredients",
+    component: RecipeIngredients
+  },
+  {
+    name: "Instructions",
+    component: RecipeInstructions
+  },
+  {
+    name: "Final",
+    component: RecipeReview
+  }
+]
+
 export default {
   name: "NewRecipe",
   data() {
@@ -54,6 +52,8 @@ export default {
       description: null,
       instructions: [],
       ingredients: [],
+      tabs: tabs,
+      currentTab: tabs[0],
     }
   },
   methods: {
