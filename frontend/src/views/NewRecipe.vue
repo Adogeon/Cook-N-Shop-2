@@ -21,14 +21,16 @@ import RecipeIntro from "../components/NewRecipeComponents/recipe-intro.vue";
 import RecipeIngredients from "../components/NewRecipeComponents/recipe-ingredients.vue";
 import RecipeInstructions from "../components/NewRecipeComponents/recipe-instructions.vue";
 import RecipeReview from "../components/NewRecipeComponents/recipe-final.vue";
+import {reactive, readonly, provide} from "vue";
+
+const newRecipe = reactive({
+
+})
 
 const tabs = [
   {
     name: "Intro",
     component: RecipeIntro
-    model:[
-      'name', 'description'
-    ]
   },
   {
     name: "Ingredients",
@@ -45,13 +47,42 @@ const tabs = [
 ]
 
 export default {
-  name: "NewRecipe",
+  components: { RecipeIntro, RecipeIngredients, RecipeInstructions, RecipeReview},
+  // props will store user information later down the line
+  setup(props) {
+    const newRecipe = reactive({
+      name: "",
+      description: "",
+      ingredients:[],
+      instructions:[]
+    })
+
+    const setName = (value) => {
+      newRecipe.name = value
+    }
+
+    const setDescription = (value) => {
+      newRecipe.description = value
+    }
+
+    const setIngredients = (value) => {
+      newRecipe.ingredients = value
+    }
+
+    const setInstructions = (value) => {
+      newRecipe.instructions = value
+    }
+
+    provide('recipe', readonly(newRecipe))
+    provide('setName', setName);
+    provide('setDescription', setDescription);
+    provide('setIngredients', setIngredients);
+    provide('setInstructions', setInstructions);
+
+    return {recipe:readonly(newRecipe)}
+  },
   data() {
     return {
-      name: null,
-      description: null,
-      instructions: [],
-      ingredients: [],
       tabs: tabs,
       currentTab: tabs[0],
     }
