@@ -23,10 +23,6 @@ import RecipeInstructions from "../components/NewRecipeComponents/recipe-instruc
 import RecipeReview from "../components/NewRecipeComponents/recipe-final.vue";
 import {reactive, readonly, provide} from "vue";
 
-const newRecipe = reactive({
-
-})
-
 const tabs = [
   {
     name: "Intro",
@@ -49,7 +45,7 @@ const tabs = [
 export default {
   components: { RecipeIntro, RecipeIngredients, RecipeInstructions, RecipeReview},
   // props will store user information later down the line
-  setup(props) {
+  setup() {
     const newRecipe = reactive({
       name: "",
       description: "",
@@ -79,7 +75,6 @@ export default {
     provide('setIngredients', setIngredients);
     provide('setInstructions', setInstructions);
 
-    return {recipe:readonly(newRecipe)}
   },
   data() {
     return {
@@ -87,12 +82,6 @@ export default {
       currentTab: tabs[0],
     }
   },
-  methods: {
-    sendData() {
-      //send data to the server
-      console.log("This method send data to the server");
-    }
-  }
 }
 </script>
 

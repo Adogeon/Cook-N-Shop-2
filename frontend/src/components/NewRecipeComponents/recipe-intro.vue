@@ -1,41 +1,41 @@
 <template>
-  <input type="text" v-model="name" >
-  <input type="text" v-model="description">
+  <section>
+    <input type="text" v-model="name" >
+    <input type="text" v-model="description">
+    <button @click="onSubmit"> Next </button>
+  </section>
 </template>
 
 <script>
-import { inject } from 'vue'
+import { inject, ref } from 'vue'
 export default {
-  setUp() {
-    const recipe = inject('recipe');
-    const setName = inject('setName');
-    const setDescription = inject('setDescription');
+  setup() {
+    const { name, description, onSubmit} = useIntro()
 
-    return ({
-      recipe,
-      setName,
-      setDescription
-    })
-  },
-  computed: {
-    name: {
-      get() {
-        return recipe.name
-      },
-      set(value) {
-        setName(value)
-      }
-    },
-    description: {
-      get() {
-        return recipe.description
-      },
-      set(description) {
-        setName(description)
-      }
+    return {
+      name,
+      description,
+      onSubmit
     }
   }
+}
 
-  
+function useIntro() {
+
+  const recipe = inject("recipe")
+
+  const name = ref(recipe.name)
+  const description = ref(recipe.description)
+
+  const setName = inject("setName");
+  const setDescription = inject("setDescription");
+
+  const onSubmit = () => {
+    setName(name.value);
+    setDescription(description.value);
+    // move to new page
+  }
+
+  return {name, description, onSubmit}
 }
 </script>
