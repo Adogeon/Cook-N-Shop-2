@@ -12,7 +12,7 @@
   </div>
   <p>{{name}}</p>
   <p>{{instructions}}</p>
-  <component :is="currentTab.component" v-model="currentTab.model"></component>
+  <component :is="tabs[currentTab.value].component" v-model="tabs[currentTab.value].model"></component>
 
 </template>
 
@@ -22,25 +22,6 @@ import RecipeIngredients from "../components/NewRecipeComponents/recipe-ingredie
 import RecipeInstructions from "../components/NewRecipeComponents/recipe-instructions.vue";
 import RecipeReview from "../components/NewRecipeComponents/recipe-final.vue";
 import {reactive, readonly, provide} from "vue";
-
-const tabs = [
-  {
-    name: "Intro",
-    component: RecipeIntro
-  },
-  {
-    name: "Ingredients",
-    component: RecipeIngredients
-  },
-  {
-    name: "Instructions",
-    component: RecipeInstructions
-  },
-  {
-    name: "Final",
-    component: RecipeReview
-  }
-]
 
 export default {
   components: { RecipeIntro, RecipeIngredients, RecipeInstructions, RecipeReview},
@@ -52,6 +33,27 @@ export default {
       ingredients:[],
       instructions:[]
     })
+
+    const tabs = [
+      {
+      name: "Intro",
+      component: RecipeIntro
+      },
+      {
+        name: "Ingredients",
+        component: RecipeIngredients
+      },
+      {
+        name: "Instructions",
+        component: RecipeInstructions
+      },
+      {
+        name: "Final",
+        component: RecipeReview
+      }
+    ]
+
+    const currentTabIndex = ref(0)
 
     const setName = (value) => {
       newRecipe.name = value
@@ -69,19 +71,22 @@ export default {
       newRecipe.instructions = value
     }
 
+    const changeTabIndex = (move) => {
+      currenttabIndex += value
+    }
+
     provide('recipe', readonly(newRecipe))
     provide('setName', setName);
     provide('setDescription', setDescription);
     provide('setIngredients', setIngredients);
     provide('setInstructions', setInstructions);
+    provide('changeTabIndex', changeTabIndex)
 
-  },
-  data() {
     return {
-      tabs: tabs,
-      currentTab: tabs[0],
+      tabs,
+      currentTab
     }
-  },
+  }
 }
 </script>
 
