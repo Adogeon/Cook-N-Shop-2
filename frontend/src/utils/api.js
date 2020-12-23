@@ -1,4 +1,4 @@
-const createNewRecipe = async (newRecipe) => {
+export const createNewRecipe = async (newRecipe) => {
   const query = ` mutation createRecipe ($newRecipe: RecipeInput) {
     newRecipe(input: $newRecipe) {
       id

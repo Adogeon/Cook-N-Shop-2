@@ -2,10 +2,10 @@
   <p> This is a page for creating new recipe </p>
   <div>
     <button
-      v-for="tab in tabs"
+      v-for="(tab, index) in tabs"
       v-bind:key="tab.name"
-      v-bind:class="['tab-button', {active:currentTab.name}]"
-      v-on:click="currentTab = tab"
+      v-bind:class="['tab-button', {active:tabs[currentTabIndex].name}]"
+      v-on:click="currentTabIndex.value = index"
     >
       {{ tab.name}}
     </button>
@@ -21,7 +21,8 @@ import RecipeIntro from "../components/NewRecipeComponents/recipe-intro.vue";
 import RecipeIngredients from "../components/NewRecipeComponents/recipe-ingredients.vue";
 import RecipeInstructions from "../components/NewRecipeComponents/recipe-instructions.vue";
 import RecipeReview from "../components/NewRecipeComponents/recipe-final.vue";
-import {reactive, readonly, provide} from "vue";
+import { createNewRecipe} from "../utils/api.js"
+import {reactive, ref, readonly, provide} from "vue";
 
 export default {
   components: { RecipeIntro, RecipeIngredients, RecipeInstructions, RecipeReview},
@@ -53,7 +54,7 @@ export default {
       }
     ]
 
-    const currentTabIndex = ref(0)
+   let currentTabIndex = ref(0)
 
     const setName = (value) => {
       newRecipe.name = value
@@ -71,8 +72,14 @@ export default {
       newRecipe.instructions = value
     }
 
-    const changeTabIndex = (move) => {
-      currenttabIndex += value
+    const changeTabIndex = (value) => {
+      currentTabIndex.value += value
+    }
+
+    const submitNewRecipe = async () => {
+      const result = await createNewRecipe(newRecipe)
+
+      console.log(result)
     }
 
     provide('recipe', readonly(newRecipe))
@@ -80,11 +87,12 @@ export default {
     provide('setDescription', setDescription);
     provide('setIngredients', setIngredients);
     provide('setInstructions', setInstructions);
-    provide('changeTabIndex', changeTabIndex)
+    provide('changeTabIndex', changeTabIndex);
+    provide('submitNewRecipe', submitNewRecipe);
 
     return {
       tabs,
-      currentTab
+      currentTabIndex
     }
   }
 }

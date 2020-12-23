@@ -41,9 +41,9 @@ export default {
 function useReview() {
   const recipe = inject("recipe");
   const {name, description, ingredients, instructions} = recipe;
-
+  const submitNewRecipe = inject("submitNewRecipe")
   function onDone() {
-    console.log(recipe)
+    submitNewRecipe();
   }
 
   return {name, description, ingredients, instructions, onDone}
