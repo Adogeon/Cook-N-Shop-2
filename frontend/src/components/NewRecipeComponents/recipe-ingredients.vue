@@ -2,8 +2,8 @@
   <section>
     <h3> Recipe Ingredients </h3>
     <input type="text" v-model="state.ingredient.name" />
-    <input type="text" v-model="state.ingredient.quantity" />
-    <input type="text" v-model="state.ingredient.measurement" />
+    <input type="number" v-model.number="state.ingredient.quantity" />
+    <input type="text" v-model="state.ingredient.unit" />
     <button @click="addIngredient"> Add Ingredient </button>
     <ul>
       <li v-for="(ingredient, i) in state.ingredientList" :key="i">
@@ -35,7 +35,7 @@
       ingredient: {
         name: "",
         quantity: 0,
-        measurement: null
+        unit: null
       },
       ingredientList: []
     });
@@ -45,7 +45,7 @@
       state.ingredient = {
         name: "",
         quantity: 0,
-        measurement: null
+        unit: null
       };
     }
 

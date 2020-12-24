@@ -2,8 +2,10 @@ export const createNewRecipe = async (newRecipe) => {
   const query = ` mutation createRecipe ($newRecipe: RecipeInput) {
     newRecipe(input: $newRecipe) {
       id
+    }
   }`;
 
+  console.log(newRecipe);
   const response = await fetch("/api/playground", {
     method: "POST",
     headers: {

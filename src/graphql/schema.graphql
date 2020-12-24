@@ -14,7 +14,7 @@ type Mutation {
 input RecipeInput {
   name: String!
   description: String
-  instruction: String
+  instructions: [String]
   ingredients: [IngredientInput!]!
 }
 
@@ -40,7 +40,7 @@ type Recipe {
   id: ID!
   name: String!
   description: String
-  instruction: String
+  instructions: String
   imageURL: String
   ingredients: [Measurement!]!
 }

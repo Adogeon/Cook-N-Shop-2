@@ -8,8 +8,8 @@ module.exports = {
   description: (parent, args, context, info) => {
     return parent.dataValues.description;
   },
-  instruction: (parent, args, context, info) => {
-    return parent.dataValues.instruction;
+  instructions: (parent, args, context, info) => {
+    return parent.dataValues.instructions;
   },
   imageURL: (parent, args, context, info) => {
     return parent.dataValues.imageURL;

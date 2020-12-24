@@ -15,7 +15,7 @@ module.exports = {
       description: {
         type: Sequelize.TEXT,
       },
-      instruction: {
+      instructions: {
         type: Sequelize.TEXT,
       },
       imageURL: {
