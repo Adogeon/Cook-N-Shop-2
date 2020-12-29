@@ -1,4 +1,5 @@
 <template>
+  <div class="new-recipe-form">
   <p> This is a page for creating new recipe </p>
   <div>
     <button
@@ -10,9 +11,9 @@
       {{ tab}}
     </button>
   </div>
-
+  <progress-bar :stepList="tabs"></progress-bar>
   <component :is="currentTabComponent"></component>
-
+  </div>
 </template>
 
 <script>
@@ -20,11 +21,12 @@ import RecipeIntro from "../components/NewRecipeComponents/recipe-intro.vue";
 import RecipeIngredients from "../components/NewRecipeComponents/recipe-ingredients.vue";
 import RecipeInstructions from "../components/NewRecipeComponents/recipe-instructions.vue";
 import RecipeReview from "../components/NewRecipeComponents/recipe-final.vue";
+import ProgressBar from "../components/ProgressBar.vue"
 import { createNewRecipe} from "../utils/api.js"
 import {reactive, ref, readonly, provide, computed} from "vue";
 
 export default {
-  components: { "recipe-introduction": RecipeIntro, "recipe-ingredient": RecipeIngredients, "recipe-instruction": RecipeInstructions, "recipe-review":RecipeReview},
+  components: { "recipe-introduction": RecipeIntro, "recipe-ingredient": RecipeIngredients, "recipe-instruction": RecipeInstructions, "recipe-review":RecipeReview, "progress-bar": ProgressBar},
   // props will store user information later down the line
   setup() {
     const newRecipe = reactive({
@@ -37,20 +39,12 @@ export default {
     const tabs = ["Introduction", "Ingredient", "Instruction", "Review"]
     const currentTabComponent = computed(() => 'recipe-' + currentTab.value.toLowerCase())
 
-    const setName = (value) => {
-      newRecipe.name = value
+    const changeRecipe = (field, value) => {
+      newRecipe[field] = value
     }
 
-    const setDescription = (value) => {
-      newRecipe.description = value
-    }
-
-    const setIngredients = (value) => {
-      newRecipe.ingredients = value
-    }
-
-    const setInstructions = (value) => {
-      newRecipe.instructions = value
+    const navigateTab = (tabName) => {
+      currentTab.value = tabName;
     }
 
     const submitNewRecipe = async () => {
@@ -68,11 +62,9 @@ export default {
     }
 
     provide('recipe', readonly(newRecipe))
-    provide('setName', setName);
-    provide('setDescription', setDescription);
-    provide('setIngredients', setIngredients);
-    provide('setInstructions', setInstructions);
+    provide('changeRecipe', changeRecipe);
     provide('submitNewRecipe', submitNewRecipe);
+    provide('navigateTab', navigateTab);
 
     return {
       tabs,
@@ -84,7 +76,7 @@ export default {
 </script>
 
 <style scoped>
-#new-recipe-form {
+.new-recipe-form {
   margin:auto;
   width: 80vw;
   max-width: 1008px;

@@ -8,7 +8,7 @@
       <label for='recipe-desc'> Description </label>
       <input type="text" v-model="description" id="recipe-name">
     </div>
-    <button @click="onSubmit"> Next </button>
+    <button @click="onNext"> Next </button>
   </section>
 </template>
 
@@ -16,12 +16,12 @@
 import { inject, ref } from 'vue'
 export default {
   setup() {
-    const { name, description, onSubmit} = useIntro()
+    const { name, description, onNext} = useIntro()
 
     return {
       name,
       description,
-      onSubmit
+      onNext
     }
   }
 }
@@ -30,18 +30,18 @@ function useIntro() {
   const recipe = inject("recipe")
   const name = ref(recipe.name)
   const description = ref(recipe.description)
-  const setName = inject("setName");
-  const setDescription = inject("setDescription");
-  const changeTabIndex = inject("changeTabIndex")
+  
+  const navigateTab = inject("navigateTab");
+  const changeRecipe = inject("changeRecipe");
 
-  const onSubmit = () => {
-    setName(name.value);
-    setDescription(description.value);
+  const onNext = () => {
+    changeRecipe("name", name.value);
+    changeRecipe("description", description.value);
     // move to new page
-    changeTabIndex(1)
+    navigateTab("Ingredient");
   }
 
-  return {name, description, onSubmit}
+  return {name, description, onNext}
 }
 </script>
 

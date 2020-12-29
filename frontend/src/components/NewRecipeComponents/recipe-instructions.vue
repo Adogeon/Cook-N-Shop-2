@@ -9,7 +9,7 @@
         <button @click="removeInstruction(i)">x</button>
       </li>
     </ul>
-    <button @click="onSubmit"> Next </button>
+    <button @click="onNext"> Next </button>
   </section>
   
 </template>
@@ -17,13 +17,13 @@
   import { reactive, inject } from "vue";
   export default {
     setup() {
-      const { state, addInstruction, removeInstruction, onSubmit} = useInstruction();
+      const { state, addInstruction, removeInstruction, onNext} = useInstruction();
 
       return {
         state,
         addInstruction,
         removeInstruction,
-        onSubmit
+        onNext
       }
     }
   };
@@ -43,14 +43,14 @@
       state.instructionList.splice(i);
     }
 
-    const setInstructions = inject("setInstructions");
-    const changeTabIndex = inject("changeTabIndex");
-    const onSubmit = () => {
-      setInstructions(state.instructionList);
-      changeTabIndex(1)
+    const changeRecipe = inject("changeRecipe");
+    const navigateTab = inject("navigateTab");
+    const onNext = () => {
+      changeRecipe("instructions", state.instructionList);
+      navigateTab("Review");
     }
 
-    return { state, addInstruction, removeInstruction, onSubmit }
+    return { state, addInstruction, removeInstruction, onNext }
   }
 </script>
 

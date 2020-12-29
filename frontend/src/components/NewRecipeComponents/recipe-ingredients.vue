@@ -11,7 +11,7 @@
         <button @click="removeIngredient(i)">x</button>
       </li>
     </ul>
-    <button @click="onSubmit">Next</button>
+    <button @click="onNext">Next</button>
   </section>
   
 </template>
@@ -19,13 +19,13 @@
   import { reactive, inject } from "vue";
   export default {
     setup() {
-      const { state, addIngredient, removeIngredient, onSubmit} = useIngredient();
+      const { state, addIngredient, removeIngredient, onNext} = useIngredient();
 
       return {
         state,
         addIngredient,
         removeIngredient,
-        onSubmit
+        onNext
       }
     }
   };
@@ -53,14 +53,14 @@
       state.ingredientList.splice(i);
     }
 
-    const setIngredients = inject("setIngredients");
-    const changeTabIndex = inject("changeTabIndex");
-    const onSubmit= () => {
-      setIngredients(state.ingredientList);
-      changeTabIndex(1);
+    const changeRecipe = inject("changeRecipe");
+    const navigateTab = inject("navigateTab");
+    const onNext = () => {
+      changeRecipe('ingredients', state.ingredientList);
+      navigateTab("Instruction");
     }
 
-    return { state, addIngredient, removeIngredient, onSubmit }
+    return { state, addIngredient, removeIngredient, onNext }
   }
 </script>
 
