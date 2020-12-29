@@ -44,10 +44,12 @@
     }
 
     const changeRecipe = inject("changeRecipe");
-    const navigateTab = inject("navigateTab");
+    //const navigateTab = inject("navigateTab");
+    const moveNext = inject('moveNext');
     const onNext = () => {
       changeRecipe("instructions", state.instructionList);
-      navigateTab("Review");
+      //navigateTab("Review");
+      moveNext()
     }
 
     return { state, addInstruction, removeInstruction, onNext }

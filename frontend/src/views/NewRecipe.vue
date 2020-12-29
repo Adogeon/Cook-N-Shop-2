@@ -1,6 +1,17 @@
 <template>
   <div class="new-recipe-form">
   <p> This is a page for creating new recipe </p>
+  
+  <progress-bar :stepList="tabs" :doneList="doneList"></progress-bar>
+  <component :is="currentTabComponent"></component>
+  </div>
+</template>
+
+<script>
+
+//in case
+/*
+*
   <div>
     <button
       v-for="tab in tabs"
@@ -11,12 +22,8 @@
       {{ tab}}
     </button>
   </div>
-  <progress-bar :stepList="tabs"></progress-bar>
-  <component :is="currentTabComponent"></component>
-  </div>
-</template>
-
-<script>
+*
+*/
 import RecipeIntro from "../components/NewRecipeComponents/recipe-intro.vue";
 import RecipeIngredients from "../components/NewRecipeComponents/recipe-ingredients.vue";
 import RecipeInstructions from "../components/NewRecipeComponents/recipe-instructions.vue";
@@ -35,17 +42,27 @@ export default {
       ingredients:[],
       instructions:[]
     })
-    const currentTab = ref('Introduction');
     const tabs = ["Introduction", "Ingredient", "Instruction", "Review"]
-    const currentTabComponent = computed(() => 'recipe-' + currentTab.value.toLowerCase())
+    const currentIndex = ref(0);
+    const currentTab = computed(() => tabs[currentIndex.value])
+    const doneList = computed(() => tabs.slice(0, currentIndex.value))
+    const currentTabComponent = computed(() => 'recipe-' + currentTab.toLowerCase())
+    
+    const moveNext = () => {
+      currentIndex.value++
+    }
+
+    const moveBack = () => {
+      currentIndex.value--
+    }
 
     const changeRecipe = (field, value) => {
       newRecipe[field] = value
     }
 
-    const navigateTab = (tabName) => {
+    /*const navigateTab = (tabName) => {
       currentTab.value = tabName;
-    }
+    }*/
 
     const submitNewRecipe = async () => {
 
@@ -55,7 +72,7 @@ export default {
         ingredients: newRecipe.ingredients,
         instructions: null,
       }
-      console.log(reconstructObject);
+      
       const result = await createNewRecipe(reconstructObject)
 
       console.log(result)
@@ -64,12 +81,15 @@ export default {
     provide('recipe', readonly(newRecipe))
     provide('changeRecipe', changeRecipe);
     provide('submitNewRecipe', submitNewRecipe);
-    provide('navigateTab', navigateTab);
+    //provide('navigateTab', navigateTab);
+    provide(moveNext, "moveNext");
+    provide(moveBack, "moveBack");
 
     return {
       tabs,
       currentTab,
-      currentTabComponent
+      currentTabComponent,
+      doneList
     }
   }
 }

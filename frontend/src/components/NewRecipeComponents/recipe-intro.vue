@@ -31,14 +31,16 @@ function useIntro() {
   const name = ref(recipe.name)
   const description = ref(recipe.description)
   
-  const navigateTab = inject("navigateTab");
+  //const navigateTab = inject("navigateTab");
+  const moveNext = inject('moveNext');
   const changeRecipe = inject("changeRecipe");
 
   const onNext = () => {
     changeRecipe("name", name.value);
     changeRecipe("description", description.value);
     // move to new page
-    navigateTab("Ingredient");
+    //navigateTab("Ingredient");
+    moveNext();
   }
 
   return {name, description, onNext}
