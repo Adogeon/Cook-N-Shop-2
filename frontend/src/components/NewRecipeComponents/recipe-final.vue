@@ -19,6 +19,7 @@
     </ol>
   </section>
   <button @click="onDone">Submit</button>
+  <button @click="onBack">Back</button>
 </template>
 
 <script>
@@ -26,14 +27,15 @@ import {inject} from "vue";
 
 export default {
   setup() {
-    const { name, description, ingredients, instructions, onDone} = useReview();
+    const { name, description, ingredients, instructions, onDone, onBack} = useReview();
 
     return {
       name,
       description,
       ingredients,
       instructions,
-      onDone
+      onDone,
+      onBack
     }
   }
 }
@@ -41,11 +43,15 @@ export default {
 function useReview() {
   const recipe = inject("recipe");
   const {name, description, ingredients, instructions} = recipe;
-  const submitNewRecipe = inject("submitNewRecipe")
+  const submitNewRecipe = inject("submitNewRecipe");
   function onDone() {
     submitNewRecipe();
   }
+  const moveBack = inject("moveBack");
+  const onBack = () => {
+    moveBack()
+  }
 
-  return {name, description, ingredients, instructions, onDone}
+  return {name, description, ingredients, instructions, onDone, onBack}
 }
 </script>

@@ -10,6 +10,7 @@
       </li>
     </ul>
     <button @click="onNext"> Next </button>
+    <button @click="onBack"> Back </button>
   </section>
   
 </template>
@@ -17,13 +18,14 @@
   import { reactive, inject } from "vue";
   export default {
     setup() {
-      const { state, addInstruction, removeInstruction, onNext} = useInstruction();
+      const { state, addInstruction, removeInstruction, onNext, onBack} = useInstruction();
 
       return {
         state,
         addInstruction,
         removeInstruction,
-        onNext
+        onNext,
+        onBack
       }
     }
   };
@@ -51,8 +53,12 @@
       //navigateTab("Review");
       moveNext()
     }
-
-    return { state, addInstruction, removeInstruction, onNext }
+    const moveBack = inject('moveBack');
+    const onBack = () => {
+      changeRecipe("instructions", state.instructionList);
+      moveBack();
+    }
+    return { state, addInstruction, removeInstruction, onNext, onBack }
   }
 </script>
 

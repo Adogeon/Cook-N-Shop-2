@@ -6,7 +6,7 @@
     </div>
     <div>
       <label for='recipe-desc'> Description </label>
-      <input type="text" v-model="description" id="recipe-name">
+      <input type="text" v-model="description" id="recipe-desc">
     </div>
     <button @click="onNext"> Next </button>
   </section>
