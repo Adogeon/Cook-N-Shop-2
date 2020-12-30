@@ -1,11 +1,7 @@
 <template>
   <div :class='["progress-bar"]'>
-    <div class="step" v-for="(step,index) in stepList" :key="step">
+    <div class="step" :class="{'done': doneList.includes(step), 'current': step === currentStep}" v-for="(step,index) in stepList" :key="`step-${index}`">
       <p>{{step}}</p>
-      <div :class="['bullet',{active: doneList.includes(step)}]">
-        <span>{{index+1}}</span>
-      </div>
-      <div :class="['check', {active: doneList.includes(step)}]" >x</div>
     </div>
   </div>
 </template>
@@ -15,34 +11,12 @@
 // add the array of step as props
 // provide moving back and forth as function for outside
 // also provide current tab to work with outside
-import {ref, toRefs, computed, provide} from "vue";
 
 export default {
   props: {
     stepList: Array,
-    doneList: Array
-  },
-  setup(props) {
-    const { stepList } = toRefs(props);
-    const currentIndex = ref(0);
-    const currentStep = computed(() => stepList.value[currentIndex.value])
-    const doneList = computed(() => stepList.value.slice(0, currentIndex.value))
-
-    const moveNext = () => {
-      currentIndex.value++
-    }
-
-    const moveBack = () => {
-      currentIndex.value--
-    }
-
-    provide(moveNext, "moveNext");
-    provide(moveBack, "moveBack");
-    provide(currentStep, "currentStep");
-    return {
-      doneList,
-      currentStep
-    }
+    doneList: Array,
+    currentStep: String
   }
 }
 </script>
@@ -51,6 +25,28 @@ export default {
   .progress-bar {
     display: flex;
     flex-flow: row;
-    justify-content: space-evenly;
+    justify-content: center;
   }
+
+  .step {
+    border-bottom: 2px gray solid;
+    flex-basis: 0;
+    flex-grow: 1;
+  }
+
+  .done {
+    border-bottom-color: green;
+    color: green;
+  }
+
+  .current {
+    text-shadow: rgb(60, 255, 0) 1px 0 10px;
+  }
+
+  .bullet {
+    position: relative;
+  }
+
+  
+
 </style>

@@ -1,9 +1,7 @@
 <template>
   <div class="new-recipe-form">
-  <p> This is a page for creating new recipe </p>
-  
-  <progress-bar :stepList="tabs" :doneList="doneList.value"></progress-bar>
-  <component :is="currentTabComponent"></component>
+    <progress-bar :stepList="tabs" :doneList="doneList" :currentStep="currentTab"></progress-bar>
+    <component :is="currentTabComponent"></component>
   </div>
 </template>
 
@@ -45,7 +43,13 @@ export default {
     const tabs = ["Introduction", "Ingredient", "Instruction", "Review"]
     const currentIndex = ref(0);
     const currentTab = computed(() => tabs[currentIndex.value])
-    const doneList = computed(() => tabs.slice(0, currentIndex.value))
+    const doneList = computed(() => {
+      if(currentIndex.value === 0) {
+        return []
+      } else {
+        return tabs.slice(0, currentIndex.value) 
+      }
+    })
     const currentTabComponent = computed(() => 'recipe-' + currentTab.value.toLowerCase())
     
     const moveNext = () => {
@@ -89,7 +93,7 @@ export default {
       tabs,
       currentTab,
       currentTabComponent,
-      doneList
+      doneList,
     }
   }
 }
