@@ -18,8 +18,8 @@
       </li>
     </ol>
   </section>
-  <button @click="onDone">Submit</button>
   <button @click="onBack">Back</button>
+  <button @click="onDone">Submit</button>
 </template>
 
 <script>

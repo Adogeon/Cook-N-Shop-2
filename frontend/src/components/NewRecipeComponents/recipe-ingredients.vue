@@ -11,8 +11,8 @@
         <button @click="removeIngredient(i)">x</button>
       </li>
     </ul>
-    <button @click="onNext">Next</button>
-    <button @click="onBack">Back</button>
+    <button @click="onNavigate('back')"> Back </button>
+    <button @click="onNavigate('next')"> Next </button>
   </section>
   
 </template>
@@ -20,14 +20,13 @@
   import { reactive, inject } from "vue";
   export default {
     setup() {
-      const { state, addIngredient, removeIngredient, onNext, onBack} = useIngredient();
+      const { state, addIngredient, removeIngredient, onNavigate} = useIngredient();
 
       return {
         state,
         addIngredient,
         removeIngredient,
-        onNext,
-        onBack
+        onNavigate
       }
     }
   };
@@ -57,17 +56,18 @@
 
     const changeRecipe = inject("changeRecipe");
     const moveNext = inject('moveNext');
-    const onNext = () => {
-      changeRecipe('ingredients', state.ingredientList);
-      moveNext()
-    }
-    const moveBack = inject('moveBack');
-    const onBack = () => {
-      changeRecipe('ingredients', state.ingredientList);
-      moveBack();
+    const moveBack = inject('moveBack')
+    const onNavigate = (direction) => {
+      changeRecipe("instructions", state.instructionList);
+      //navigateTab("Review");
+      if(direction === "next") {
+        moveNext()
+      } else if(direction === "back") {
+        moveBack()
+      }
     }
 
-    return { state, addIngredient, removeIngredient, onNext, onBack }
+    return { state, addIngredient, removeIngredient, onNavigate }
   }
 </script>
 

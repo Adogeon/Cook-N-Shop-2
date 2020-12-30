@@ -9,8 +9,8 @@
         <button @click="removeInstruction(i)">x</button>
       </li>
     </ul>
-    <button @click="onNext"> Next </button>
-    <button @click="onBack"> Back </button>
+    <button @click="onNavigate('back')"> Back </button>
+    <button @click="onNavigate('next')"> Next </button>
   </section>
   
 </template>
@@ -18,14 +18,13 @@
   import { reactive, inject } from "vue";
   export default {
     setup() {
-      const { state, addInstruction, removeInstruction, onNext, onBack} = useInstruction();
+      const { state, addInstruction, removeInstruction, onNavigate} = useInstruction();
 
       return {
         state,
         addInstruction,
         removeInstruction,
-        onNext,
-        onBack
+        onNavigate
       }
     }
   };
@@ -48,17 +47,18 @@
     const changeRecipe = inject("changeRecipe");
     //const navigateTab = inject("navigateTab");
     const moveNext = inject('moveNext');
-    const onNext = () => {
+    const moveBack = inject('moveBack')
+    const onNavigate = (direction) => {
       changeRecipe("instructions", state.instructionList);
       //navigateTab("Review");
-      moveNext()
+      if(direction === "next") {
+        moveNext()
+      } else if(direction === "back") {
+        moveBack()
+      }
     }
-    const moveBack = inject('moveBack');
-    const onBack = () => {
-      changeRecipe("instructions", state.instructionList);
-      moveBack();
-    }
-    return { state, addInstruction, removeInstruction, onNext, onBack }
+   
+    return { state, addInstruction, removeInstruction, onNavigate }
   }
 </script>
 
