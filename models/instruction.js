@@ -10,7 +10,7 @@ module.exports = function (sequelize, DataTypes) {
     },
     order: {
       type: DataTypes.INTEGER,
-      unique: true,
+      unique: false,
     },
     step: {
       type: DataTypes.STRING,

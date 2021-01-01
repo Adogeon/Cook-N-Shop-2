@@ -16,6 +16,16 @@ const addingIngredients = async (ingredientList, context, recipeId) => {
   });
 };
 
+const addingInstructions = async (instructionList, context, recipeId) => {
+  instructionList.map(async (instruction, index) => {
+    await context.Ingredient.create({
+      RecipeId: recipeId,
+      order: index,
+      step: instruction,
+    });
+  });
+};
+
 module.exports = {
   newRecipe: async (parent, args, context, info) => {
     try {
@@ -23,6 +33,10 @@ module.exports = {
 
       if (args.input.ingredients) {
         await addingIngredients(args.input.ingredients, context, newRecipe.id);
+      }
+
+      if (args.input.instructions) {
+        await addingInstructions(args.input.instructions, context, newRecipe.id);
       }
 
       newRecipe = await context.Recipe.findOne({
