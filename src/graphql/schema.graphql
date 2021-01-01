@@ -40,9 +40,14 @@ type Recipe {
   id: ID!
   name: String!
   description: String
-  instructions: String
+  instructions: [Instruction!]!
   imageURL: String
   ingredients: [Measurement!]!
+}
+
+type Instruction {
+  order: Number
+  step: String
 }
 
 type Measurement {

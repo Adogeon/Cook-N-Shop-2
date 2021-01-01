@@ -30,6 +30,8 @@ module.exports = function (sequelize, DataTypes) {
       // },
       // onDelete: 'CASCADE'
     });
+
+    Recipe.hasMany(models.Instruction)
   };
 
   return Recipe;
