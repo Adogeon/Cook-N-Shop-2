@@ -9,7 +9,13 @@ module.exports = {
     return parent.dataValues.description;
   },
   instructions: (parent, args, context, info) => {
-    return parent.dataValues.instructions;
+    return context.Recipe.findOne({ where: { id: parent.dataValues.id } }).then(
+      (RecInst) => {
+        return RecInst.getInstructions().then((result) => {
+          return result;
+        });
+      }
+    );
   },
   imageURL: (parent, args, context, info) => {
     return parent.dataValues.imageURL;
