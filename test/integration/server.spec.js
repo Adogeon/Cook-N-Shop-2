@@ -57,6 +57,10 @@ describe("POST functionality", () => {
             ... on Recipe {
               id
               name
+              instructions {
+                order
+                step
+              }
               ingredients {
                 ingredient {
                   name
