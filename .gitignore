@@ -17,8 +17,12 @@ pnpm-debug.log*
 # Editor directories and files
 .idea
 .vscode
+.eslintignore
+.eslintrc.json
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
+
+
