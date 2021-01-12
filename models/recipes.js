@@ -19,15 +19,11 @@ module.exports = function (sequelize, DataTypes) {
 
   //any ingredient can show up in many recipes
   Recipe.associate = function (models) {
+    Recipe.belongsTo(models.User);
+    Recipe.hasMany(models.Instruction);
     Recipe.belongsToMany(models.Ingredient, {
       through: "Measurement",
-      // foreignKey: {
-      //   allowNull: false
-      // },
-      // onDelete: 'CASCADE'
     });
-
-    Recipe.hasMany(models.Instruction);
   };
 
   return Recipe;

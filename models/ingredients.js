@@ -13,21 +13,9 @@ module.exports = function (sequelize, DataTypes) {
   Ingredient.associate = function (models) {
     Ingredient.belongsToMany(models.Recipe, {
       through: "Measurement",
-      // foreignKey: {
-      //   allowNull: false
-      // },
-      // onDelete: 'CASCADE'
     });
   };
 
   return Ingredient;
 };
 
-//ingredients
-// id, name
-
-// recipes
-// id, name, steps
-
-// recipe_ingredients
-// id, recipe_id, ingredient_id, quantity, unit_of_measure
