@@ -1,7 +1,7 @@
 type Query {
   hello(name: String): String!
   currentUser: User
-  user(id: String!): User
+  user(id: ID!): User
   allRecipe(filter: String): SearchResult!
   allIngredient(filter: String): [Ingredient!]!
   recipeById(id: ID!): QueryResult!
@@ -79,6 +79,7 @@ type Ingredient {
 type User {
   id: ID!
   username: String!
+  email: String
   createdRecipes: [Recipe!]
   favoriteRecipes: [Recipe!]
 }
