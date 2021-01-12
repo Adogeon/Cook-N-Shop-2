@@ -19,6 +19,7 @@ pnpm-debug.log*
 .vscode
 .eslintignore
 .eslintrc.json
+.sequelizerc
 *.suo
 *.ntvs*
 *.njsproj
