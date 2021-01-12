@@ -12,6 +12,7 @@ const context = {
   Recipe: db.Recipe,
   Measurement: db.Measurement,
   Instruction: db.Instruction,
+  User: db.User,
 };
 
 const graphqlMiddleware = (options = {}) =>

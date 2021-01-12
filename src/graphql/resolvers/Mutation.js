@@ -1,3 +1,7 @@
+const bcrypt = require("bcryptjs");
+const jsonwebtoken = require("jsonwebtoken");
+require("dotenv").config();
+
 const addingIngredients = async (ingredientList, context, recipeId) => {
   ingredientList.map(async (ingredient) => {
     const { name, ...measurement } = ingredient;
@@ -63,6 +67,56 @@ module.exports = {
       return recipeRecord;
     } catch (err) {
       console.error(err);
+    }
+  },
+  registerUser: async (_, { username, email, password }, { User }) => {
+    try {
+      const user = await User.create({
+        username,
+        email,
+        password: await bcrypt.hash(password, 10),
+      });
+
+      const token = jsonwebtoken.sign(
+        { id: user.id, username: user.username, email: user.email },
+        process.env.JWT_SECRET,
+        { expiresIn: "1w" }
+      );
+
+      return {
+        token,
+        userId: user.id,
+      };
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  },
+
+  login: async (_, { username, password }, { User }) => {
+    try {
+      const user = await User.findOne({ where: { username: username } });
+      if (!user) {
+        throw new Error("No user with that username");
+      }
+      const isValid = await bcrypt.compare(password, user.password);
+      if (!isValid) {
+        throw new Error("Incorrect password");
+      }
+
+      const token = jsonwebtoken.sign(
+        {
+          id: user.id,
+          email: user.email,
+        },
+        process.env.JWT_SECRET,
+        { expiresIn: "1w" }
+      );
+      return {
+        token,
+        userId: user.id,
+      };
+    } catch (error) {
+      throw new Error(error.message);
     }
   },
 };

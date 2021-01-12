@@ -4,6 +4,9 @@ module.exports = {
   hello: (parent, args, context, info) => {
     return args.name ? `Hello ${args.name}` : `Hello World!`;
   },
+  currentUser: async (_, args,{ currentUserId, User }) => {
+    return await User.findByPk(currentUserId)
+  },
   allRecipe: (parent, args, context, info) => {
     let where = {};
     if (args.filter) {

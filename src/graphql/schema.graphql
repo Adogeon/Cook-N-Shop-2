@@ -11,7 +11,7 @@ type Mutation {
   newRecipe(input: RecipeInput): ID
   updateRecipe(id: ID, input: RecipeInput): Recipe!
   deleteRecipe(id: ID): String!
-  registerNewUser(
+  registerUser(
     username: String!
     email: String
     password: String!
