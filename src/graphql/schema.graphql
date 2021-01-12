@@ -1,16 +1,22 @@
 type Query {
   hello(name: String): String!
+  currentUser: User
+  user(id: String!): User
   allRecipe(filter: String): SearchResult!
   allIngredient(filter: String): [Ingredient!]!
   recipeById(id: ID!): QueryResult!
-  logIn(input: UserInput): User
 }
 
 type Mutation {
   newRecipe(input: RecipeInput): ID
   updateRecipe(id: ID, input: RecipeInput): Recipe!
   deleteRecipe(id: ID): String!
-  createNewUser(input: UserInput): User
+  registerNewUser(
+    username: String!
+    email: String
+    password: String!
+  ): AuthPayload!
+  login(username: String!, password: String!): AuthPayload!
 }
 
 input RecipeInput {
@@ -26,9 +32,9 @@ input IngredientInput {
   unit: String
 }
 
-input UserInput {
-  username: String!
+type AuthPayload {
   token: String!
+  userId: ID!
 }
 
 type SearchResult {
