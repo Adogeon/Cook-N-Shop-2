@@ -13,7 +13,7 @@ const { app, db } = require("../../src/app");
 
 describe("POST functionality", () => {
   context("connection test prior to connecting to database", () => {
-    it("allow POST with JSON encoding", (done) => {
+    it.skip("allow POST with JSON encoding", (done) => {
       request(app)
         .post("/playground")
         .send({ query: "{hello}" })
@@ -24,7 +24,7 @@ describe("POST functionality", () => {
         });
     });
 
-    it("accept variables via POST", (done) => {
+    it.skip("accept variables via POST", (done) => {
       request(app)
         .post("/playground")
         .send({
@@ -45,7 +45,7 @@ describe("POST functionality", () => {
       await db.sequelize.sync();
     });
 
-    describe("Query recipeById", () => {
+    describe.skip("Query recipeById", () => {
       const query = `
         query findRecipeById($id: ID!) {
           recipeById(id: $id) {
@@ -78,13 +78,15 @@ describe("POST functionality", () => {
           .send({
             query,
             operationName: "findRecipeById",
-            variables: { id: "1" },
+            variables: { id: "9" },
           })
           .then((response) => {
             expect(response.status).to.equal(200);
             const data = response.body.data.recipeById;
+            console.log(data);
             expect(data.id).to.be.equal("1");
             expect(data.ingredients).to.be.an("array").with.length(2);
+            expect(data.instructions).to.not.be.null;
             done();
           });
       });
@@ -105,7 +107,7 @@ describe("POST functionality", () => {
       });
     });
 
-    describe("Query search", () => {
+    describe.skip("Query search", () => {
       const query = `
         query search($filter: String!) {
           allRecipe(filter: $filter) {
@@ -150,7 +152,7 @@ describe("POST functionality", () => {
       });
     });
 
-    describe("Query allIngredient", () => {
+    describe.skip("Query allIngredient", () => {
       const query = `
         query searchIngredient($filter: String) {
           allIngredient(filter: $filter) {
@@ -182,17 +184,7 @@ describe("POST functionality", () => {
 
     describe("Mutation newRecipe", () => {
       const query = ` mutation createRecipe ($newRecipe: RecipeInput) {
-        newRecipe(input: $newRecipe) {
-          id
-          name
-          ingredients {
-            ingredient {
-              name
-            }
-            quantity
-            unit
-          }
-        }
+        newRecipe(input: $newRecipe) 
       }`;
 
       it("should return a new recipe when sucessful", (done) => {
@@ -216,11 +208,21 @@ describe("POST functionality", () => {
                     unit: "tablespoons",
                   },
                 ],
+                instructions: [
+                  "Break and beat two large eggs",
+                  "Melt the butter",
+                  "Pour beaten eggs onto the butter",
+                  "Stir to create curd",
+                  "Remove when bottom don't stick to the pan",
+                ],
               },
             },
           })
           .then((response) => {
+            console.log(response.body);
+            console.log(response.text);
             expect(response.status).to.be.equal(200);
+
             expect(response.body.data.newRecipe.name).to.be.equal("Omellete");
             expect(response.body.data.newRecipe.ingredients).to.be.an("array");
             done();
@@ -228,7 +230,7 @@ describe("POST functionality", () => {
       });
     });
 
-    describe("Mutation updateRecipe", () => {
+    describe.skip("Mutation updateRecipe", () => {
       const query = ` mutation updateRecipe ($id: ID, $updateRecipe: RecipeInput) {
         updateRecipe(id: $id, input: $updateRecipe) {
           name

@@ -2,8 +2,13 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable("Instructions", {
-      recipeId: {
+      id: {
+        allowNull: false,
+        autoIncrement: true,
         primaryKey: true,
+        type: Sequelize.INTEGER,
+      },
+      recipeId: {
         type: Sequelize.INTEGER,
         references: {
           model: "Recipes",
@@ -13,7 +18,6 @@ module.exports = {
       order: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        primaryKey: true,
       },
       step: {
         type: Sequelize.STRING,

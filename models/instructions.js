@@ -1,13 +1,5 @@
 module.exports = function (sequelize, DataTypes) {
   var Instruction = sequelize.define("Instruction", {
-    RecipeId: {
-      type: DataTypes.INTEGER,
-      references: {
-        model: "Recipe",
-        key: "id",
-      },
-      primaryKey: true,
-    },
     order: {
       type: DataTypes.INTEGER,
       unique: false,
@@ -17,6 +9,10 @@ module.exports = function (sequelize, DataTypes) {
       allowNull: false,
     },
   });
+
+  Instruction.associate = function (models) {
+    Instruction.belongsTo(models.Recipe);
+  };
 
   return Instruction;
 };

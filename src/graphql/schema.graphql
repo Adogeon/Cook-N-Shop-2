@@ -3,12 +3,14 @@ type Query {
   allRecipe(filter: String): SearchResult!
   allIngredient(filter: String): [Ingredient!]!
   recipeById(id: ID!): QueryResult!
+  logIn(input: UserInput): User
 }
 
 type Mutation {
-  newRecipe(input: RecipeInput): Recipe!
+  newRecipe(input: RecipeInput): ID
   updateRecipe(id: ID, input: RecipeInput): Recipe!
   deleteRecipe(id: ID): String!
+  createNewUser(input: UserInput): User
 }
 
 input RecipeInput {
@@ -22,6 +24,11 @@ input IngredientInput {
   name: String!
   quantity: Int!
   unit: String
+}
+
+input UserInput {
+  username: String!
+  token: String!
 }
 
 type SearchResult {
@@ -40,14 +47,15 @@ type Recipe {
   id: ID!
   name: String!
   description: String
-  instructions: [Instruction!]!
+  instructions: [Instruction!]
   imageURL: String
-  ingredients: [Measurement!]!
+  ingredients: [Measurement!]
+  postedBy: User!
 }
 
 type Instruction {
-  order: Number
-  step: String
+  order: Int!
+  step: String!
 }
 
 type Measurement {
@@ -60,4 +68,11 @@ type Ingredient {
   id: ID!
   name: String!
   recipes: [Recipe!]
+}
+
+type User {
+  id: ID!
+  username: String!
+  createdRecipes: [Recipe!]
+  favoriteRecipes: [Recipe!]
 }

@@ -11,10 +11,6 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.TEXT,
       allowNull: true,
     },
-    instructions: {
-      type: DataTypes.TEXT,
-      allowNull: true,
-    },
     imageURL: {
       type: DataTypes.STRING,
       allowNull: true,
@@ -31,7 +27,7 @@ module.exports = function (sequelize, DataTypes) {
       // onDelete: 'CASCADE'
     });
 
-    Recipe.hasMany(models.Instruction)
+    Recipe.hasMany(models.Instruction);
   };
 
   return Recipe;

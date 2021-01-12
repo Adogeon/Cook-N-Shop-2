@@ -43,6 +43,7 @@ module.exports = {
     return context.Recipe.findOne({
       where: { id: args.id },
     }).then(async (result) => {
+      console.log(result);
       if (result) {
         return {
           __typename: "Recipe",

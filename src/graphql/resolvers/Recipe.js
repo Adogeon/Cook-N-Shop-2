@@ -9,9 +9,11 @@ module.exports = {
     return parent.dataValues.description;
   },
   instructions: (parent, args, context, info) => {
+    console.log(parent)
     return context.Recipe.findOne({ where: { id: parent.dataValues.id } }).then(
       (RecInst) => {
         return RecInst.getInstructions().then((result) => {
+          console.log("instruction", result);
           return result;
         });
       }

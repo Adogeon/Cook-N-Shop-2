@@ -1,5 +1,3 @@
-const { ingredients } = require("./Recipe");
-
 const addingIngredients = async (ingredientList, context, recipeId) => {
   ingredientList.map(async (ingredient) => {
     const { name, ...measurement } = ingredient;
@@ -16,13 +14,13 @@ const addingIngredients = async (ingredientList, context, recipeId) => {
   });
 };
 
-const addingInstructions = async (instructionList, context, recipeId) => {
-  instructionList.map(async (instruction, index) => {
-    await context.Ingredient.create({
-      RecipeId: recipeId,
+const addingInstructions = async (instructionList, context, newRecipeInst) => {
+  return instructionList.map(async (instruction, index) => {
+    const newInstruction = await context.Instruction.create({
       order: index,
       step: instruction,
     });
+    await newRecipeInst.addInstructions(newInstruction);
   });
 };
 
@@ -30,20 +28,18 @@ module.exports = {
   newRecipe: async (parent, args, context, info) => {
     try {
       let newRecipe = await context.Recipe.create(args.input);
-
+      let promiseArr = [];
       if (args.input.ingredients) {
-        await addingIngredients(args.input.ingredients, context, newRecipe.id);
+        promiseArr.push(
+          addingIngredients(args.input.ingredients, context, newRecipe.id)
+        );
       }
 
       if (args.input.instructions) {
-        await addingInstructions(args.input.instructions, context, newRecipe.id);
+        await addingInstructions(args.input.instructions, context, newRecipe);
       }
 
-      newRecipe = await context.Recipe.findOne({
-        where: { id: newRecipe.id },
-        include: context.Ingredient,
-      });
-      return newRecipe;
+      return newRecipe.dataValues.id;
     } catch (err) {
       console.error(err);
     }
