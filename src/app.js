@@ -36,17 +36,17 @@ const context = {
   User: db.User,
 };
 
-const graphqlMiddleware = (req, options = {}) =>
+const graphqlMiddleware = (req) =>
   graphqlHTTP({
     schema: schema,
     context: {
       ...context,
       currentUser: req.user.id || null,
     },
-    ...options,
+    graphiql: true,
   });
 
-app.use("/playground", graphqlMiddleware(req, { graphiql: true }));
+app.use("/playground", graphqlMiddleware);
 
 module.exports = {
   app,
