@@ -1,12 +1,33 @@
 const db = require("../database/models");
 const express = require("express");
 const { graphqlHTTP } = require("express-graphql");
+const jwt = require("jsonwebtoken");
 
 //setting up graphQLServer
 
 const app = express();
 app.use(express.json());
 const { schema } = require("./graphql");
+
+const JWT_SECRET = process.env.JWT_SECRET;
+const getUser = (token) => {
+  try {
+    if (token) {
+      return jwt.verify(token, JWT_SECRET);
+    }
+    return null;
+  } catch (error) {
+    return null;
+  }
+};
+
+const authorizeMiddleWare = (req, res, next) => {
+  const token = req.get("Authroization") || "";
+  req.user = getUser(token.replace("Bearer", ""));
+  next();
+};
+app.use(authorizeMiddleWare);
+
 const context = {
   Ingredient: db.Ingredient,
   Recipe: db.Recipe,
@@ -15,22 +36,17 @@ const context = {
   User: db.User,
 };
 
-const graphqlMiddleware = (options = {}) =>
+const graphqlMiddleware = (req, options = {}) =>
   graphqlHTTP({
     schema: schema,
-    context,
+    context: {
+      ...context,
+      currentUser: req.user.id || null,
+    },
     ...options,
   });
 
-middleLog = (req, res, next) => {
-  console.log("Req:", req.body);
-  console.log("Res", res.body);
-  next();
-};
-
-//app.use(middleLog);
-
-app.use("/playground", graphqlMiddleware({ graphiql: true }));
+app.use("/playground", graphqlMiddleware(req, { graphiql: true }));
 
 module.exports = {
   app,
