@@ -81,5 +81,4 @@ type User {
   username: String!
   email: String
   createdRecipes: [Recipe!]
-  favoriteRecipes: [Recipe!]
 }

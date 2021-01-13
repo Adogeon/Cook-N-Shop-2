@@ -1,5 +1,3 @@
-"use strict";
-const { Model, Sequelize } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define("User", {
     id: {
@@ -15,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
     password: DataTypes.STRING,
   });
 
-  User.associate = (model) => {
+  User.associate = (models) => {
     User.hasMany(models.Recipe, {
       foreignKey: "authorId",
     });

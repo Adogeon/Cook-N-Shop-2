@@ -22,8 +22,8 @@ const getUser = (token) => {
 };
 
 const authorizeMiddleWare = (req, res, next) => {
-  const token = req.get("Authroization") || "";
-  req.user = getUser(token.replace("Bearer", ""));
+  const token = req.get("Authorization") || "";
+  req.user = getUser(token.replace("Bearer ", ""));
   next();
 };
 app.use(authorizeMiddleWare);
