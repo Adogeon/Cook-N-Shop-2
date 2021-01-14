@@ -1,4 +1,4 @@
-const db = require("../database/models");
+const db = require("./database/models");
 const express = require("express");
 const { graphqlHTTP } = require("express-graphql");
 const jwt = require("jsonwebtoken");

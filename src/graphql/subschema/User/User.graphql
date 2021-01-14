@@ -1,0 +1,25 @@
+type User {
+  id: ID!
+  username: String!
+  email: String
+  createdRecipes: [Recipe!]
+}
+
+type Query {
+  currentUser: User
+  user(id: ID!): User
+}
+
+type Mutation {
+  registerUser(
+    username: String!
+    email: String
+    password: String!
+  ): AuthPayload!
+  login(username: String!, password: String!): AuthPayload!
+}
+
+type AuthPayload {
+  token: String!
+  userId: ID!
+}
