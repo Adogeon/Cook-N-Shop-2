@@ -14,7 +14,7 @@ fs.readdirSync(__dirname)
   })
   .map((file) => {
     const directoryPath = join(__dirname,file);
-    const typeDefs = await loadSchema(join(directoryPath,"schema.graphql"), {
+    const typeDefs = await loadSchema(join(directoryPath,"typedef.graphql"), {
       loaders: [ new GraphQLFileLoader()]
     });
     const resolvers = require(join(directoryPath,"resolver.js"))
