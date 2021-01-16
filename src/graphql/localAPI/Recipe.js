@@ -6,13 +6,13 @@ module.exports = {
     try {
       const result = await Recipe.findByPk(recipeId, {
         include: [
-          {model: User, as:"author"}, 
+          { model: User, as: "author" },
           {
-            model: Ingredient, 
+            model: Ingredient,
             through: {
-              attributes: ['quantity','unit']
-            }
-          }
+              attributes: ["quantity", "unit"],
+            },
+          },
         ],
         raw: true,
       });
@@ -62,16 +62,16 @@ module.exports = {
       throw new Error(err);
     }
   },
-  deleteRecipe = async (userId, recipeId) => {
+  deleteRecipe: async (userId, recipeId) => {
     try {
       const RecipeInst = await Recipe.findByPk(recipeId);
       const authorId = await RecipeInst.getAuthor().id;
       if (userId !== authorId)
         throw new Error("User is not the Author of this Recipe");
       const result = await RecipeInst.destroy();
-      return result
+      return result;
     } catch (err) {
       throw new Error(err);
     }
-  }
+  },
 };
