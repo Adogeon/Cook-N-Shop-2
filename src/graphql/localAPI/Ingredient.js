@@ -19,12 +19,10 @@ module.exports = {
     }
   },
 
-  searchOrAddIngredient: async (name) => {
+  findOrCreateIngredientInst: async (name) => {
     try {
-      const IngredientInst = await Ingredient.findOrCreate({
-        where: { name },
-      });
-      return IngredientInst.get({ plain: true });
+      const ingredientInst = await Ingredient.findOrCreate({ where: { name } });
+      return ingredientInst;
     } catch (err) {
       throw new Error(err);
     }
