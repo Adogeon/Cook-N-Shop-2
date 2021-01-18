@@ -2,7 +2,7 @@ const { Recipe, User, Ingredient } = require("../../database/models");
 const { findOrCreateIngredientInst } = require("./Ingredient.js");
 
 module.exports = {
-  findRecipeById: async (recipeId) => {
+  async findRecipeById(recipeId) {
     try {
       const result = await Recipe.findByPk(recipeId, {
         include: [
@@ -21,7 +21,7 @@ module.exports = {
       throw new Error(err);
     }
   },
-  createNewRecipe: async (userId, { ingredients, ...rest }) => {
+  async createNewRecipe(userId, { ingredients, ...rest }) {
     try {
       const RecipeInst = await Recipe.create(rest);
       const recipeId = RecipeInst.id;
@@ -40,7 +40,7 @@ module.exports = {
       throw new Error(err);
     }
   },
-  updateRecipe: async (userId, recipeId, { ingredients, ...rest }) => {
+  async updateRecipe(userId, recipeId, { ingredients, ...rest }) {
     try {
       const RecipeInst = await Recipe.findByPk(recipeId);
       const authorId = await RecipeInst.getAuthor().id;
@@ -62,7 +62,7 @@ module.exports = {
       throw new Error(err);
     }
   },
-  deleteRecipe: async (userId, recipeId) => {
+  async deleteRecipe(userId, recipeId) {
     try {
       const RecipeInst = await Recipe.findByPk(recipeId);
       const authorId = await RecipeInst.getAuthor().id;

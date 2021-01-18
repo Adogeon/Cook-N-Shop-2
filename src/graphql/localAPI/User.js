@@ -1,7 +1,7 @@
 const { User } = require("../../database/models");
 
 module.exports = {
-  getUserById: async (id) => {
+  async getUserById(id) {
     try {
       const userInst = await User.findByPk(id);
       return userInst.get({ plain: true });
@@ -9,7 +9,7 @@ module.exports = {
       throw new Error(err);
     }
   },
-  updateUserById: async (id, newValue) => {
+  async updateUserById(id, newValue) {
     try {
       const userInst = await User.findByPk(id);
       await userInst.update(newValue);
@@ -18,7 +18,7 @@ module.exports = {
       throw new Error(err);
     }
   },
-  deleteUserById: async (id) => {
+  async deleteUserById(id) {
     try {
       const userInst = await User.findByPk(id);
       await userInst.destroy();
@@ -26,7 +26,7 @@ module.exports = {
       throw new error(err);
     }
   },
-  addNewUser: async (newUser) => {
+  async addNewUser(newUser) {
     try {
       const userInst = await User.create(newUser);
       return userInst.get({ plain: true });

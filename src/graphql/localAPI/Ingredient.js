@@ -1,7 +1,7 @@
 const { Ingredient } = require("../../database/models");
 
 module.exports = {
-  getIngredientById: async (id) => {
+  async getIngredientById(id) {
     try {
       const IngredientInst = await Ingredient.findByPk(id);
       return IngredientInst.get({ plain: true });
@@ -10,7 +10,7 @@ module.exports = {
     }
   },
 
-  getAllIngredient: async (where = {}) => {
+  async getAllIngredient(where = {}) {
     try {
       const ingredientList = await Ingredient.findAll(where, { raw: true });
       return ingredientList;
@@ -19,7 +19,7 @@ module.exports = {
     }
   },
 
-  findOrCreateIngredientInst: async (name) => {
+  async findOrCreateIngredientInst(name) {
     try {
       const ingredientInst = await Ingredient.findOrCreate({ where: { name } });
       return ingredientInst;
