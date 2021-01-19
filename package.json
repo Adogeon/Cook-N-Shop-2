@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "setUpDev": "npm run resetDb && npm run dbMigrate",
-    "setUpTest": "cross-env NODE_ENV=test npm run resetDb && cross-env NODE_ENV=test npm run dbMigrate",
+    "setUpTest": "cross-env NODE_ENV=test npm run resetDb",
     "dbMigrate": "sequelize db:migrate && sequelize db:seed:all --debug",
     "resetDb": "sequelize db:seed:undo:all && sequelize db:migrate:undo:all --debug",
     "test": "cross-env NODE_ENV=test mocha --watch",
