@@ -7,11 +7,14 @@ const IngredientApi = require("../graphql/localAPI/Ingredient");
 const bcrypt = require("bcryptjs");
 
 const db = require("../database/models");
-const User = require("../graphql/localAPI/User");
 
 before(async function () {
   await db.sequelize.sync();
   console.log("Connecting to the database");
+});
+
+after(async function () {
+  await db.sequelize.drop();
 });
 
 describe("UserApi", function () {
@@ -114,3 +117,76 @@ describe("UserApi", function () {
     });
   });
 });
+
+describe("#IngredientApi", function () {
+  describe("getIngredientById", function () {
+    before(async function () {
+      ingredientInst = await db.Ingredient.create({
+        name: "test-ingredient",
+      });
+    });
+    after(async function () {
+      await ingredientInst.destroy();
+    });
+    it("should get the ingredient by id", async function () {
+      let ingredientInst;
+      const result = await IngredientApi.getIngredientById(ingredientInst.id);
+      expect(result.name).to.equal("test-ingredient");
+      expect(result).to.be.an("Object");
+    });
+  });
+  describe("getAllIngredient", function () {
+    before(async function () {
+      await db.Ingredient.bulkCreate([
+        { name: "Onion" },
+        { name: "Egg" },
+        { name: "Food Colour" },
+        { name: "Food Additive" },
+      ]);
+    });
+    after(async function () {
+      await db.Ingredient.bulkDestroy();
+    });
+    it("should return all ingredient when call without parameter", async function () {
+      const result = await IngredientApi.getAllIngredient({});
+      expect(result).to.be.an("Object");
+      expect(result).to.haveOwnProperty("count", 4);
+      expect(result).to.haveOwnProperty("ingredients");
+      expect(result.ingredients).to.be.an("Array").with.lengthOf(4);
+    });
+    it("should return only ingredients that match with the parameter", async function () {
+      const result = await IngredientApi.getAllIngredient("Food");
+      expect(result).to.be.an("Object");
+      expect(result).to.haveOwnProperty("count", 2);
+      expect(result).to.haveOwnProperty("ingredients");
+      expect(result.ingredients).to.be.an("Array").with.lengthOf(2);
+    });
+  });
+  describe("findOrCreateIngredient", async function () {
+    let preIngredientInst;
+    before(async function () {
+      preIngredientInst = await db.Ingredient.create({
+        name: "ingredient-A",
+      });
+    });
+    after(async function () {
+      db.Ingredient.bulkDestroy();
+    });
+    it("should return a matching ingredient if already exist", async function () {
+      const result = await IngredientApi.findOrCreateIngredientInst(
+        "ingredient-A"
+      );
+      expect(result).to.deep.equal(preIngredientInst);
+      expect(result.id).to.equal(preIngredientInst.id);
+    });
+    it("should return a new ingredient if there is not match", async function () {
+      const result = await IngredientApi.findOrCreateIngredientInst(
+        "Eye of Newt"
+      );
+      expect(result.id).to.not.equal(preIngredientInst.id);
+    });
+  });
+});
+
+// recipeAPI
+//findRecipeById, createNewRecipe, updateRecipe, deleteRecipe
