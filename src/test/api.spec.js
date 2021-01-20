@@ -191,32 +191,110 @@ describe("#IngredientApi", function () {
 // recipeAPI
 //findRecipeById, createNewRecipe, updateRecipe, deleteRecipe
 describe("recipeApi", function () {
+  //set up
+  // asuming user already signin, mean that the User table is having object;
+  //assuming ingredient have one or two matching ingredient
+  let userInst;
+  before(async function () {
+    userInst = await db.User.create({
+      name: "testSubject1",
+      email: "testSubject@greendalepsy.net",
+      password: "abedisbatmannow",
+    });
+    await db.Ingredient.create({
+      name: "Onion",
+    });
+  });
   describe("findRecipeById", function () {
-    //set up
-    // asuming user already signin, mean that the User table is having object;
-    //assuming ingredient have one or two matching ingredient
-    let userInst;
-    let ingredientInst;
+    let newRecipeInst;
+    before(async function () {
+      newRecipeInst = await db.Recipe.create({
+        name: "test-recipe",
+        authorId: userInst.id,
+      });
+    });
+    after(async function () {
+      await newRecipeInst.drop();
+    });
+    it("should return a new recipe", async function () {
+      const result = await RecipeApi.findRecipeById(newRecipeInst.id);
+      expect(result).to.be.an("Object");
+      expect(result.name).to.equal("test-recipe");
+    });
+  });
+
+  describe.skip("updateRecipeById", async function () {
+    let newRecipeInst;
     let result;
     before(async function () {
-      userInst = db.User.create({
-        name: "testSubject1",
-        email: "testSubject@greendalepsy.net",
-        password: "abedisbatmannow",
-      });
-      ingredientInst = db.Ingredient.create({
-        name: "Onion",
+      newRecipeInst = await db.Recipe.create({
+        name: "test-recipe",
+        authorId: userInst.id,
       });
 
+      result = await RecipeApi.updateRecipe(userInst.id, newRecipeInst.id, {
+        name: "test-recipe-update",
+        ingredients: [
+          { name: "ingredient-A", quantity: 500, unit: "grams" },
+          { name: "ingredient-B", quantity: 300, unit: "gram" },
+        ],
+        instructions: ["mix", "boil", "dump"],
+      });
+    });
+    after(async function () {
+      await newRecipeInst.drop();
+    });
+
+    it("should update the recipe record", function () {
+      expect(result).to.haveOwnProperty("name", "test-recipe-update");
+    });
+    it("should update the instruction record", async function () {
+      let instructionList = await db.Instruction.findAll({
+        where: { RecipeId: newRecipeInst },
+      });
+      expect(instructionList).to.be.an("Array").with.lengthOf(2);
+    });
+    it("should update the ingredient record", async function () {
+      const IngredientList = result.ingredients;
+      try {
+        await Promist.all(
+          IngredientList.map(async (ingredient) => {
+            const test = await db.Ingredient.findByPk(ingredient.id);
+            expect(test.name).to.equal(ingredient.name);
+          })
+        );
+      } catch (err) {
+        expect(err).to.be.null;
+      }
+    });
+  });
+
+  describe("deleteRecipe", async function () {
+    let newRecipeInst;
+    before(async function () {
+      newRecipeInst = await db.Recipe.create({
+        name: "test-recipe",
+        authorId: userInst.id,
+      });
+    });
+    it("should delete the recipe", async function () {
+      await RecipeApi.deleteRecipe(userInst.id, newRecipeInst.id);
+      try {
+        await newRecipeInst.reload();
+      } catch (err) {
+        expect(err.name).to.equal("SequelizeInstanceError");
+      }
+    });
+  });
+
+  describe("createNewRecipe", function () {
+    let result;
+    before(async function () {
       result = await RecipeApi.createNewRecipe(userInst.id, {
         name: "Heal Potion",
         ingredients: [
-          {
-            name: "Wheat",
-            quantity: 1,
-            unit: "bushel",
-          },
-          { name: "Giant toe", unit: "toe?", quantity: 1 },
+          { name: "Wheat", quantity: 1, unit: "bushel" },
+          { name: "Giant Toe", unit: "toe?", quantity: 1 },
           { name: "Onion", quantity: 500, unit: "g" },
         ],
         instructions: [
@@ -231,18 +309,33 @@ describe("recipeApi", function () {
 
     it("should adding a new recipe", function () {
       expect(result).to.be.an("Object");
-      expect(result.name).to.equal("Heal Potion")
+      expect(result).to.haveOwnProperty("name", "Heal Potion");
+      expect(result).to.haveOwnProperty("authorId", userInst.id);
+      expect(result).to.haveOwnProperty("ingredients");
+      expect(result).to.haveOwnProperty("instructions");
     });
 
-    it("should create entry in Instruction table", function () {
-      let Instructions = await db.Instruction.findAll({where: {
-        RecipeId: result.id
-      }})
-      expect(Instructions).to.be.an("Array").with.lengthOf(5)
-    })
+    it("should create entry in Instruction table", async function () {
+      const Instructions = await db.Instruction.findAll({
+        where: {
+          RecipeId: result.id,
+        },
+      });
+      expect(Instructions).to.be.an("Array").with.lengthOf(5);
+    });
 
-    it("should create entry in Ingredient table", function () {
-      //testing IngredientInst to have recipe id using mix in
-    })
+    it("should create entry in Ingredient table", async function () {
+      const IngredientList = result.ingredients;
+      try {
+        await Promist.all(
+          IngredientList.map(async (ingredient) => {
+            const test = await db.Ingredient.findByPk(ingredient.id);
+            expect(test.name).to.equal(ingredient.name);
+          })
+        );
+      } catch (err) {
+        expect(err).to.be.null;
+      }
+    });
   });
 });
