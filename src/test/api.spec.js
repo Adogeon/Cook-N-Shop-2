@@ -190,3 +190,59 @@ describe("#IngredientApi", function () {
 
 // recipeAPI
 //findRecipeById, createNewRecipe, updateRecipe, deleteRecipe
+describe("recipeApi", function () {
+  describe("findRecipeById", function () {
+    //set up
+    // asuming user already signin, mean that the User table is having object;
+    //assuming ingredient have one or two matching ingredient
+    let userInst;
+    let ingredientInst;
+    let result;
+    before(async function () {
+      userInst = db.User.create({
+        name: "testSubject1",
+        email: "testSubject@greendalepsy.net",
+        password: "abedisbatmannow",
+      });
+      ingredientInst = db.Ingredient.create({
+        name: "Onion",
+      });
+
+      result = await RecipeApi.createNewRecipe(userInst.id, {
+        name: "Heal Potion",
+        ingredients: [
+          {
+            name: "Wheat",
+            quantity: 1,
+            unit: "bushel",
+          },
+          { name: "Giant toe", unit: "toe?", quantity: 1 },
+          { name: "Onion", quantity: 500, unit: "g" },
+        ],
+        instructions: [
+          "Grind everything into powder",
+          "Mix the wheat,toe, and water in a big pot",
+          "Cook on medium heat for 3 hour",
+          "Adding onion until the mixture stop smell of toe",
+          "Wait until cool to bottle and label",
+        ],
+      });
+    });
+
+    it("should adding a new recipe", function () {
+      expect(result).to.be.an("Object");
+      expect(result.name).to.equal("Heal Potion")
+    });
+
+    it("should create entry in Instruction table", function () {
+      let Instructions = await db.Instruction.findAll({where: {
+        RecipeId: result.id
+      }})
+      expect(Instructions).to.be.an("Array").with.lengthOf(5)
+    })
+
+    it("should create entry in Ingredient table", function () {
+      //testing IngredientInst to have recipe id using mix in
+    })
+  });
+});
