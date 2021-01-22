@@ -1,19 +1,11 @@
 const { User } = require("../../../database/models");
 const bcrypt = require("bcryptjs");
 const jsonwebtoken = require("jsonwebtoken");
+const { getUserById, createNewUser } = require("../../localAPI/User");
 require("dotenv").config();
 
 module.exports = {
   User: {
-    id: (parent) => {
-      return parent.dataValues.id;
-    },
-    username: (parent) => {
-      return parent.dataValues.username;
-    },
-    email: (parent) => {
-      return parent.dataValues.email;
-    },
     createdRecipes: (parent, args) => {
       return User.findOne({ where: { id: parent.dataValues.id } }).then(
         (UserInst) => {
@@ -27,14 +19,14 @@ module.exports = {
   Mutation: {
     registerUser: async (_, { username, email, password }) => {
       try {
-        const user = await User.create({
+        const user = await createNewUser({
           username,
           email,
           password: await bcrypt.hash(password, 10),
         });
 
         const token = jsonwebtoken.sign(
-          { id: user.id, username: user.username, email: user.email },
+          { id: user.id, email: user.email },
           process.env.JWT_SECRET,
           { expiresIn: "1w" }
         );
@@ -48,9 +40,9 @@ module.exports = {
       }
     },
 
-    login: async (_, { username, password }) => {
+    login: async (_, { email, password }) => {
       try {
-        const user = await User.findOne({ where: { username: username } });
+        const user = await User.findOne({ where: { email: email } });
         if (!user) {
           throw new Error("No user with that username");
         }
@@ -76,5 +68,12 @@ module.exports = {
       }
     },
   },
-  Query: {},
+  Query: {
+    currentUser: async (_, args, { currentUserId }) => {
+      return await getUserById(currentUserId);
+    },
+    user: async (_, { id }) => {
+      return await getUserById(id);
+    },
+  },
 };

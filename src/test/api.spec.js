@@ -116,6 +116,9 @@ describe("UserApi", function () {
       }
     });
   });
+
+  describe.skip("getRecipeCreatedByUser");
+  describe.skip("addRecipeToUserFavorite");
 });
 
 describe("#IngredientApi", function () {
@@ -186,6 +189,8 @@ describe("#IngredientApi", function () {
       expect(result.id).to.not.equal(preIngredientInst.id);
     });
   });
+
+  describe.skip("getRecipeByIngredient");
 });
 
 // recipeAPI
