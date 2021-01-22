@@ -4,8 +4,8 @@ const { substring } = Sequelize.Op;
 module.exports = {
   async getIngredientById(id) {
     try {
-      const IngredientInst = await Ingredient.findByPk(id);
-      return IngredientInst.get({ plain: true });
+      const ingredientInst = await Ingredient.findByPk(id);
+      return ingredientInst.get({ plain: true });
     } catch (err) {
       throw new Error(err);
     }
@@ -24,6 +24,19 @@ module.exports = {
         count,
       };
     } catch (err) {
+      throw new Error(err);
+    }
+  },
+
+  async getRecipesByIngredient(ingredientId) {
+    try {
+      const ingredientInst = await Ingredient.findByPk(ingredientId);
+      const recipeList = await ingredientInst.getRecipes();
+      const resultList = await Promise.all(
+        recipeList.map(async (recipe) => recipe.get({ plain: true }))
+      );
+      return resultList;
+    } catch (error) {
       throw new Error(err);
     }
   },

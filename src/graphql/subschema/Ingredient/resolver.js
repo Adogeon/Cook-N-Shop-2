@@ -1,37 +1,21 @@
-const { Ingredient } = require("../../../database/models");
+const {
+  getAllIngredient,
+  getRecipesByIngredient,
+  getIngredientById,
+} = require("../../localAPI/Ingredient");
 
 module.exports = {
   Ingredient: {
-    id: (parent) => {
-      return parent.dataValues.id;
-    },
-    name: (parent) => {
-      return parent.dataValues.name;
-    },
-    recipes: (parent) => {
-      return Ingredient.findOne({
-        where: { id: parent.id },
-      }).then((IngInst) => {
-        return IngInst.getRecipes().then((result) => {
-          return result;
-        });
-      });
+    recipes: async ({ id }) => {
+      return await getRecipesByIngredient(id);
     },
   },
   Query: {
-    allIngredient: (parent, args) => {
-      let where = {};
-      if (args.filter) {
-        where = { name: { [Op.substring]: args.filter } };
-      }
-
-      return Ingredient.findAll({ where })
-        .then((result) => {
-          return result;
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+    allIngredient: async (_, { filter }) => {
+      return await getAllIngredient(filter);
+    },
+    ingredientById: async (_, { id }) => {
+      return await getIngredientById(id);
     },
   },
 };
