@@ -1,4 +1,5 @@
-const { Ingredient } = require("../../database/models");
+const { Ingredient, Sequelize } = require("../../database/models");
+const { substring } = Sequelize.Op;
 
 module.exports = {
   async getIngredientById(id) {
@@ -10,10 +11,18 @@ module.exports = {
     }
   },
 
-  async getAllIngredient(where = {}) {
+  async getAllIngredient(search) {
+    let where = {};
+    if (search) where = { name: { [substring]: search } };
     try {
-      const ingredientList = await Ingredient.findAll(where, { raw: true });
-      return ingredientList;
+      const { rows, count } = await Ingredient.findAndCountAll({
+        where,
+        raw: true,
+      });
+      return {
+        ingredients: [...rows],
+        count,
+      };
     } catch (err) {
       throw new Error(err);
     }
@@ -22,7 +31,7 @@ module.exports = {
   async findOrCreateIngredientInst(name) {
     try {
       const ingredientInst = await Ingredient.findOrCreate({ where: { name } });
-      return ingredientInst;
+      return ingredientInst[0];
     } catch (err) {
       throw new Error(err);
     }

@@ -120,16 +120,16 @@ describe("UserApi", function () {
 
 describe("#IngredientApi", function () {
   describe("getIngredientById", function () {
+    let ingredientInst;
     before(async function () {
       ingredientInst = await db.Ingredient.create({
         name: "test-ingredient",
       });
     });
     after(async function () {
-      await ingredientInst.destroy();
+      await ingredientInst.destroy({ where: {} });
     });
     it("should get the ingredient by id", async function () {
-      let ingredientInst;
       const result = await IngredientApi.getIngredientById(ingredientInst.id);
       expect(result.name).to.equal("test-ingredient");
       expect(result).to.be.an("Object");
@@ -145,10 +145,10 @@ describe("#IngredientApi", function () {
       ]);
     });
     after(async function () {
-      await db.Ingredient.bulkDestroy();
+      await db.Ingredient.destroy({ where: {} });
     });
     it("should return all ingredient when call without parameter", async function () {
-      const result = await IngredientApi.getAllIngredient({});
+      const result = await IngredientApi.getAllIngredient();
       expect(result).to.be.an("Object");
       expect(result).to.haveOwnProperty("count", 4);
       expect(result).to.haveOwnProperty("ingredients");
@@ -162,6 +162,7 @@ describe("#IngredientApi", function () {
       expect(result.ingredients).to.be.an("Array").with.lengthOf(2);
     });
   });
+
   describe("findOrCreateIngredient", async function () {
     let preIngredientInst;
     before(async function () {
@@ -170,13 +171,12 @@ describe("#IngredientApi", function () {
       });
     });
     after(async function () {
-      db.Ingredient.bulkDestroy();
+      preIngredientInst.destroy();
     });
     it("should return a matching ingredient if already exist", async function () {
       const result = await IngredientApi.findOrCreateIngredientInst(
         "ingredient-A"
       );
-      expect(result).to.deep.equal(preIngredientInst);
       expect(result.id).to.equal(preIngredientInst.id);
     });
     it("should return a new ingredient if there is not match", async function () {
@@ -197,7 +197,7 @@ describe("recipeApi", function () {
   let userInst;
   before(async function () {
     userInst = await db.User.create({
-      name: "testSubject1",
+      username: "testSubject1",
       email: "testSubject@greendalepsy.net",
       password: "abedisbatmannow",
     });
@@ -210,11 +210,10 @@ describe("recipeApi", function () {
     before(async function () {
       newRecipeInst = await db.Recipe.create({
         name: "test-recipe",
-        authorId: userInst.id,
       });
     });
     after(async function () {
-      await newRecipeInst.drop();
+      await newRecipeInst.destroy();
     });
     it("should return a new recipe", async function () {
       const result = await RecipeApi.findRecipeById(newRecipeInst.id);
@@ -223,14 +222,15 @@ describe("recipeApi", function () {
     });
   });
 
-  describe.skip("updateRecipeById", async function () {
+  describe("updateRecipeById", async function () {
     let newRecipeInst;
     let result;
     before(async function () {
       newRecipeInst = await db.Recipe.create({
         name: "test-recipe",
-        authorId: userInst.id,
       });
+
+      await newRecipeInst.setAuthor(userInst);
 
       result = await RecipeApi.updateRecipe(userInst.id, newRecipeInst.id, {
         name: "test-recipe-update",
@@ -242,22 +242,26 @@ describe("recipeApi", function () {
       });
     });
     after(async function () {
-      await newRecipeInst.drop();
+      await newRecipeInst.destroy();
     });
 
     it("should update the recipe record", function () {
       expect(result).to.haveOwnProperty("name", "test-recipe-update");
+      expect(result)
+        .to.haveOwnProperty("Ingredients")
+        .be.an("Array")
+        .with.lengthOf(2);
     });
     it("should update the instruction record", async function () {
       let instructionList = await db.Instruction.findAll({
-        where: { RecipeId: newRecipeInst },
+        where: { RecipeId: newRecipeInst.id },
       });
-      expect(instructionList).to.be.an("Array").with.lengthOf(2);
+      expect(instructionList).to.be.an("Array").with.lengthOf(3);
     });
     it("should update the ingredient record", async function () {
-      const IngredientList = result.ingredients;
+      const IngredientList = result.Ingredients;
       try {
-        await Promist.all(
+        await Promise.all(
           IngredientList.map(async (ingredient) => {
             const test = await db.Ingredient.findByPk(ingredient.id);
             expect(test.name).to.equal(ingredient.name);
@@ -274,8 +278,8 @@ describe("recipeApi", function () {
     before(async function () {
       newRecipeInst = await db.Recipe.create({
         name: "test-recipe",
-        authorId: userInst.id,
       });
+      await newRecipeInst.setAuthor(userInst);
     });
     it("should delete the recipe", async function () {
       await RecipeApi.deleteRecipe(userInst.id, newRecipeInst.id);
@@ -311,8 +315,8 @@ describe("recipeApi", function () {
       expect(result).to.be.an("Object");
       expect(result).to.haveOwnProperty("name", "Heal Potion");
       expect(result).to.haveOwnProperty("authorId", userInst.id);
-      expect(result).to.haveOwnProperty("ingredients");
-      expect(result).to.haveOwnProperty("instructions");
+      expect(result).to.haveOwnProperty("Ingredients");
+      expect(result).to.haveOwnProperty("Instructions");
     });
 
     it("should create entry in Instruction table", async function () {
@@ -325,9 +329,9 @@ describe("recipeApi", function () {
     });
 
     it("should create entry in Ingredient table", async function () {
-      const IngredientList = result.ingredients;
+      const IngredientList = result.Ingredients;
       try {
-        await Promist.all(
+        await Promise.all(
           IngredientList.map(async (ingredient) => {
             const test = await db.Ingredient.findByPk(ingredient.id);
             expect(test.name).to.equal(ingredient.name);
