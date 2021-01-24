@@ -1,0 +1,33 @@
+type Recipe {
+  id: ID!
+  name: String!
+  description: String
+  instructions: [Instruction!]
+  imageURL: String
+  ingredients: [Measurement!]
+  postedBy: User!
+}
+
+type Instruction {
+  order: Int!
+  step: String!
+}
+
+type Measurement {
+  ingredient: Ingredient!
+  quantity: Int!
+  unit: String
+}
+
+input RecipeInput {
+  name: String!
+  description: String
+  instructions: [String!]!
+  ingredients: [IngredientInput!]!
+}
+
+input IngredientInput {
+  name: String!
+  quantity: Int!
+  unit: String
+}
