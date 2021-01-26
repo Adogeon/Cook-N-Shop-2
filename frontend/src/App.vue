@@ -4,13 +4,13 @@
 </template>
 
 <script>
-import Navigation from "../src/components/Navigation.vue"
+import Navigation from "../src/components/Navigation.vue";
 
 export default {
   components: {
     Navigation
   }
-}
+};
 </script>
 
 <style>
@@ -21,5 +21,4 @@ export default {
   text-align: center;
   color: #2c3e50;
 }
-
 </style>

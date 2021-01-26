@@ -1,4 +1,4 @@
-export const getOneRecipeById = async (recipeId) => {
+export const getOneRecipeById = async recipeId => {
   const query = `
     query findRecipeById($id: ID!) {
       recipeById(id: $id) {
@@ -25,12 +25,12 @@ export const getOneRecipeById = async (recipeId) => {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Accept: "application/json",
+      Accept: "application/json"
     },
     body: JSON.stringify({
       query,
-      variables: { id: recipeId },
-    }),
+      variables: { id: recipeId }
+    })
   });
 
   const result = await response.json();
@@ -61,9 +61,9 @@ export const getAllRecipes = async () => {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Accept: "application/json",
+      Accept: "application/json"
     },
-    body: JSON.stringify({ query }),
+    body: JSON.stringify({ query })
   });
   const result = await response.json();
   return result.data.allRecipe;

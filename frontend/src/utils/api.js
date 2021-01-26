@@ -1,4 +1,4 @@
-export const createNewRecipe = async (newRecipe) => {
+export const createNewRecipe = async newRecipe => {
   const query = ` mutation createRecipe ($newRecipe: RecipeInput) {
     newRecipe(input: $newRecipe) {
       id
@@ -10,12 +10,12 @@ export const createNewRecipe = async (newRecipe) => {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Accept: "application/json",
+      Accept: "application/json"
     },
     body: JSON.stringify({
       query,
-      variables: { newRecipe: newRecipe },
-    }),
+      variables: { newRecipe: newRecipe }
+    })
   });
 
   const result = await response.json();

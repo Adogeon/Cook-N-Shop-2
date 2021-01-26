@@ -1,30 +1,29 @@
 <template>
   <div id="nav">
     <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link> |  
-    <router-link to="/recipes">Recipes</router-link>  |  
-    <router-link to="/ingredients">Ingredients</router-link> 
+    <router-link to="/about">About</router-link> |
+    <router-link to="/recipes">Recipes</router-link> |
+    <router-link to="/ingredients">Ingredients</router-link>
   </div>
 </template>
 
 <script>
 export default {
-  name:"Navigation"
-}
+  name: "Navigation"
+};
 </script>
 
 <style scoped>
-  #nav {
-    padding: 30px;
-  }
+#nav {
+  padding: 30px;
+}
 
-  #nav a {
-    font-weight: bold;
-    color: #2c3e50;
-  }
+#nav a {
+  font-weight: bold;
+  color: #2c3e50;
+}
 
-  #nav a.router-link-exact-active {
-    color: #42b983;
-  }
+#nav a.router-link-exact-active {
+  color: #42b983;
+}
 </style>
-

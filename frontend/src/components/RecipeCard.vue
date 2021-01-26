@@ -7,9 +7,9 @@
 
 <script>
 export default {
-  name:"RecipeCard",
-  props:['name', 'description']
-}
+  name: "RecipeCard",
+  props: ["name", "description"]
+};
 </script>
 
 <style scoped>

@@ -1,7 +1,12 @@
 <template>
-  <div :class='["progress-bar"]'>
-    <div class="step" :class="{'done': doneList.includes(step), 'current': step === currentStep}" v-for="(step,index) in stepList" :key="`step-${index}`">
-      <p>{{step}}</p>
+  <div :class="['progress-bar']">
+    <div
+      class="step"
+      :class="{ done: doneList.includes(step), current: step === currentStep }"
+      v-for="(step, index) in stepList"
+      :key="`step-${index}`"
+    >
+      <p>{{ step }}</p>
     </div>
   </div>
 </template>
@@ -18,35 +23,32 @@ export default {
     doneList: Array,
     currentStep: String
   }
-}
+};
 </script>
 
 <style scoped>
-  .progress-bar {
-    display: flex;
-    flex-flow: row;
-    justify-content: center;
-  }
+.progress-bar {
+  display: flex;
+  flex-flow: row;
+  justify-content: center;
+}
 
-  .step {
-    border-bottom: 2px gray solid;
-    flex-basis: 0;
-    flex-grow: 1;
-  }
+.step {
+  border-bottom: 2px gray solid;
+  flex-basis: 0;
+  flex-grow: 1;
+}
 
-  .done {
-    border-bottom-color: green;
-    color: green;
-  }
+.done {
+  border-bottom-color: green;
+  color: green;
+}
 
-  .current {
-    text-shadow: rgb(60, 255, 0) 1px 0 10px;
-  }
+.current {
+  text-shadow: rgb(60, 255, 0) 1px 0 10px;
+}
 
-  .bullet {
-    position: relative;
-  }
-
-  
-
+.bullet {
+  position: relative;
+}
 </style>
