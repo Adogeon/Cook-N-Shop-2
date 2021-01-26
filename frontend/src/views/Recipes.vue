@@ -3,17 +3,23 @@
     <h1>This is the list of recipes</h1>
     <ul id="recipe-list">
       <li v-for="recipe in recipes" :key="recipe.id">
-        <router-link :to="`/recipe/${recipe.id}`">
-          <recipe-card v-bind="recipe" />
-        </router-link>
+        <recipe-card v-bind="recipe" />
       </li>
     </ul>
   </div>
 </template>
 
 <script>
-import { getAllRecipes } from "../utils/query";
+//import { getAllRecipes } from "../utils/query";
 import RecipeCard from "../components/RecipeCard.vue";
+
+const getAllRecipes = async () => {
+  return Promise.resolve({recipes:[
+    {name: "recipe-1", description: "this is recipe-1"},
+    {name: "recipe-2", description: "this is recipe-2"},
+    {name: "recipe-3", description: "this is recipe-3"},
+  ]})
+}
 
 export default {
   components: { RecipeCard },
