@@ -41,7 +41,7 @@ const graphqlMiddleware = (req) =>
     schema: schema,
     context: {
       ...context,
-      currentUserId: req.user.id || null,
+      currentUserId: req.user || null,
     },
     graphiql: true,
   });
