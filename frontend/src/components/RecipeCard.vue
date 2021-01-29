@@ -4,7 +4,7 @@
   <div class="card-body">
     <h5 class="card-title">{{name}}</h5>
     <p class="card-text">{{description}}</p>
-    <a href="#" class="btn btn-primary">Check it out</a>
+    <a v-bind:href="link" class="btn btn-primary">Check it out</a>
   </div>
 </div>
 </template>
@@ -12,7 +12,7 @@
 <script>
 export default {
   name: "RecipeCard",
-  props: ["name", "description"]
+  props: ["name", "description", "link"]
 };
 </script>
 

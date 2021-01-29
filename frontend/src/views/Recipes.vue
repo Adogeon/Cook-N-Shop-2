@@ -15,9 +15,9 @@ import RecipeCard from "../components/RecipeCard.vue";
 
 const getAllRecipes = async () => {
   return Promise.resolve({recipes:[
-    {name: "recipe-1", description: "this is recipe-1"},
-    {name: "recipe-2", description: "this is recipe-2"},
-    {name: "recipe-3", description: "this is recipe-3"},
+    {name: "recipe-1", description: "this is recipe-1", link: "/recipe/1"},
+    {name: "recipe-2", description: "this is recipe-2", link: "/recipe/2"},
+    {name: "recipe-3", description: "this is recipe-3", link: "/recipe/3"},
   ]})
 }
 
