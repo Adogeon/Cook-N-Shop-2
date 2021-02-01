@@ -1,6 +1,16 @@
 <template>
   <div class="recipes-page">
     <h1>This is the list of recipes</h1>
+    <div>
+      <h3> Note </h3>
+      <p> Further component needed </p>
+      <ul>
+        - search bar
+        - filter by tags
+        - filter by main ingredient
+        - create recipe
+      </ul>
+    </div>
     <ul id="recipe-list">
       <li v-for="recipe in recipes" :key="recipe.id">
         <recipe-card v-bind="recipe" />

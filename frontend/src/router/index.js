@@ -26,11 +26,6 @@ const routes = [
       import(/* webpackChunkName: "about" */ "../views/Recipes.vue"),
   },
   {
-    path: "/ingredients",
-    name: "Ingredient",
-    component: () => import("../views/Ingredients.vue"),
-  },
-  {
     path: "/recipe/:id",
     name: "RecipeDetail",
     component: () => import("../views/RecipeDetail.vue"),
@@ -41,9 +36,14 @@ const routes = [
     component: () => import("../views/NewRecipe.vue"),
   },
   {
-    path: "/user",
-    name: "UserDetail",
-    component: () => import("../views/User.vue"),
+    path: "/setting",
+    name: "UserSetting",
+    component: () => import("../views/Setting.vue"),
+  },
+  {
+    path: "/calendar-prop",
+    name: "CalendarProp",
+    component: () => import("../views/prop.vue"),
   },
 ];
 

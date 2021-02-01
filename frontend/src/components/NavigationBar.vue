@@ -7,11 +7,14 @@
     </button>
     <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
       <ul class="navbar-nav me-2 mb-2 mb-lg-0">
+         <li class="nav-item dropdown">
+          <router-link class="nav-link" to="/plan">Plan</router-link>
+        </li>
         <li class="nav-item dropdown">
           <router-link class="nav-link" to="/recipes">Recipes</router-link>
         </li>
         <li class="nav-item dropdown">
-          <a class="nav-link" href="#">Search</a>
+          <a class="nav-link" href="/grocery-list">Grocery List</a>
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
