@@ -1,12 +1,12 @@
 <template>
-  <plan-calendar/>
+  <plan-calendar />
 </template>
 
 <script>
-import PlanCalendar from "../components/PlanView.vue"
+import PlanCalendar from "../components/PlanView.vue";
 
 export default {
-  name:"prop",
-  components: {"plan-calendar": PlanCalendar}
-}
+  name: "prop",
+  components: { "plan-calendar": PlanCalendar }
+};
 </script>

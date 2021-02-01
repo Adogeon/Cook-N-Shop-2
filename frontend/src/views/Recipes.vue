@@ -2,13 +2,11 @@
   <div class="recipes-page">
     <h1>This is the list of recipes</h1>
     <div>
-      <h3> Note </h3>
-      <p> Further component needed </p>
+      <h3>Note</h3>
+      <p>Further component needed</p>
       <ul>
-        - search bar
-        - filter by tags
-        - filter by main ingredient
-        - create recipe
+        - search bar - filter by tags - filter by main ingredient - create
+        recipe
       </ul>
     </div>
     <ul id="recipe-list">
@@ -24,12 +22,14 @@
 import RecipeCard from "../components/RecipeCard.vue";
 
 const getAllRecipes = async () => {
-  return Promise.resolve({recipes:[
-    {name: "recipe-1", description: "this is recipe-1", link: "/recipe/1"},
-    {name: "recipe-2", description: "this is recipe-2", link: "/recipe/2"},
-    {name: "recipe-3", description: "this is recipe-3", link: "/recipe/3"},
-  ]})
-}
+  return Promise.resolve({
+    recipes: [
+      { name: "recipe-1", description: "this is recipe-1", link: "/recipe/1" },
+      { name: "recipe-2", description: "this is recipe-2", link: "/recipe/2" },
+      { name: "recipe-3", description: "this is recipe-3", link: "/recipe/3" }
+    ]
+  });
+};
 
 export default {
   components: { RecipeCard },

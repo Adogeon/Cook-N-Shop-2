@@ -5,7 +5,7 @@ const routes = [
   {
     path: "/",
     name: "Home",
-    component: Home,
+    component: Home
   },
   {
     path: "/about",
@@ -14,7 +14,7 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () =>
-      import(/* webpackChunkName: "about" */ "../views/About.vue"),
+      import(/* webpackChunkName: "about" */ "../views/About.vue")
   },
   {
     path: "/recipes",
@@ -23,33 +23,33 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () =>
-      import(/* webpackChunkName: "about" */ "../views/Recipes.vue"),
+      import(/* webpackChunkName: "about" */ "../views/Recipes.vue")
   },
   {
     path: "/recipe/:id",
     name: "RecipeDetail",
-    component: () => import("../views/RecipeDetail.vue"),
+    component: () => import("../views/RecipeDetail.vue")
   },
   {
     path: "/recipe/new",
     name: "NewRecipe",
-    component: () => import("../views/NewRecipe.vue"),
+    component: () => import("../views/NewRecipe.vue")
   },
   {
     path: "/setting",
     name: "UserSetting",
-    component: () => import("../views/Setting.vue"),
+    component: () => import("../views/Setting.vue")
   },
   {
     path: "/calendar-prop",
     name: "CalendarProp",
-    component: () => import("../views/prop.vue"),
-  },
+    component: () => import("../views/prop.vue")
+  }
 ];
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
-  routes,
+  routes
 });
 
 export default router;
