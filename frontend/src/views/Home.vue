@@ -1,17 +1,15 @@
 <template>
   <div class="home">
     <img alt="Vue logo" src="../assets/logo.png" />
-    <div class="calendar">
-      <h2>Calendar go here</h2>
-      <router-link to="/calendar-prop"> To calendar prototype </router-link>
-    </div>
+    <plan-calendar />
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-
+import PlanCalendar from "../components/PlanView.vue";
 export default {
-  name: "Home"
+  name: "Home",
+  components: { "plan-calendar": PlanCalendar }
 };
 </script>

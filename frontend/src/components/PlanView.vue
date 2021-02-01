@@ -122,9 +122,10 @@
           <td>
             <ul class="list-group list-group-flush text-start">
               <li class="list-group-item border-0">
-                Lentil soup, ham salad sandwich with salad cream, on wholemeal
+                Ham salad sandwich with salad cream, on wholemeal
                 bread
               </li>
+              <li class="list-group-item border-0">Lentil soup</li>
               <li class="list-group-item border-0">2 tangerines</li>
             </ul>
           </td>
@@ -220,7 +221,7 @@
                 Roast chicken, roast potatoes, peas and carrot
               </li>
               <li class="list-group-item border-0">
-                Homemade spiced rice pudding
+                <router-link to="/recipe/1">Homemade spiced rice pudding</router-link>
               </li>
             </ul>
           </td>
@@ -243,7 +244,12 @@ import * as dayjs from "dayjs";
 
 export default {
   name: "PlanCalendar",
-  activeClass: "border border-primary",
-  todayDate: dayjs().day()
+  data() {
+    return {
+      activeClass: "border border-primary border-2 ",
+      todayDate: dayjs().day()
+    }
+  }
+  
 };
 </script>
