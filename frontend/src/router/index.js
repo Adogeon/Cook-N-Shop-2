@@ -44,6 +44,11 @@ const routes = [
     path: "/calendar-prop",
     name: "CalendarProp",
     component: () => import("../views/prop.vue")
+  },
+  {
+    path: "/grocery-list",
+    name: "GroceryList",
+    component: () => import("../views/GroceryList.vue")
   }
 ];
 

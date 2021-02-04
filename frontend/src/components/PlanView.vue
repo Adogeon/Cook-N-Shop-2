@@ -122,8 +122,7 @@
           <td>
             <ul class="list-group list-group-flush text-start">
               <li class="list-group-item border-0">
-                Ham salad sandwich with salad cream, on wholemeal
-                bread
+                Ham salad sandwich with salad cream, on wholemeal bread
               </li>
               <li class="list-group-item border-0">Lentil soup</li>
               <li class="list-group-item border-0">2 tangerines</li>
@@ -221,7 +220,9 @@
                 Roast chicken, roast potatoes, peas and carrot
               </li>
               <li class="list-group-item border-0">
-                <router-link to="/recipe/1">Homemade spiced rice pudding</router-link>
+                <router-link to="/recipe/1"
+                  >Homemade spiced rice pudding</router-link
+                >
               </li>
             </ul>
           </td>
@@ -248,8 +249,7 @@ export default {
     return {
       activeClass: "border border-primary border-2 ",
       todayDate: dayjs().day()
-    }
+    };
   }
-  
 };
 </script>

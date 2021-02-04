@@ -43,13 +43,8 @@
               aria-labelledby="navbarDropdown"
             >
               <li>
-                <router-link class="dropdown-item" to="/user"
-                  >Profile</router-link
-                >
-              </li>
-              <li>
-                <router-link class="dropdown-item" to="/favorite"
-                  >Favorite Recipe</router-link
+                <router-link class="dropdown-item" to="/setting"
+                  >Setting</router-link
                 >
               </li>
               <li><hr class="dropdown-divider" /></li>

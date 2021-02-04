@@ -4,11 +4,16 @@
 </template>
 
 <script>
-import NavigationBar from "../src/components/NavigationBar.vue";
+import NavigationBar from "@/components/NavigationBar.vue";
+import global from "@/modules/global.js";
+import { provide } from "vue";
 
 export default {
   components: {
     NavigationBar
+  },
+  setup() {
+    provide("global", global);
   }
 };
 </script>
