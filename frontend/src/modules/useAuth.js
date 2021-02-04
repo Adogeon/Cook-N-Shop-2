@@ -1,11 +1,11 @@
-import { reactive, readonly } from "vue";
+import { reactive, readonly, computed } from "vue";
 
 const state = reactive({
   token: "",
   error: {}
 });
 
-const login = async (email, password) => {
+const signIn = async (email, password) => {
   try {
     const response = await fetch("/api/login", {
       method: "POST",
@@ -21,7 +21,7 @@ const login = async (email, password) => {
   }
 };
 
-const signup = async (username, email, password) => {
+const signUp = async (username, email, password) => {
   try {
     const response = await fetch("/api/signup", {
       method: "POST",
@@ -38,8 +38,11 @@ const signup = async (username, email, password) => {
   }
 };
 
+const isSignIn = computed(() => state.token !== "");
+
 export default {
   ...readonly(state),
-  login,
-  signup
+  isSignIn,
+  signIn,
+  signUp
 };

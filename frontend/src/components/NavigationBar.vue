@@ -62,7 +62,13 @@
 </template>
 
 <script>
+import { inject } from "vue";
 export default {
-  name: "navigation-bar"
+  name: "navigation-bar",
+  setup() {
+    const { isSignUp } = inject("auth");
+
+    return { isSignUp };
+  }
 };
 </script>

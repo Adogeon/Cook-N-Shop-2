@@ -13,7 +13,7 @@ export default {
     NavigationBar
   },
   setup() {
-    provide("global", global);
+    provide("auth", global.auth);
   }
 };
 </script>

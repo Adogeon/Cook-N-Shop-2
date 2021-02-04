@@ -8,8 +8,14 @@
 <script>
 // @ is an alias to /src
 import PlanCalendar from "../components/PlanView.vue";
+import { inject } from "vue";
 export default {
   name: "Home",
-  components: { "plan-calendar": PlanCalendar }
+  components: { "plan-calendar": PlanCalendar },
+  setup() {
+    const { isSignIn } = inject("auth");
+
+    return { isSignIn };
+  }
 };
 </script>
