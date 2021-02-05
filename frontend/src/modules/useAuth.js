@@ -7,7 +7,7 @@ const state = reactive({
 
 const signIn = async (email, password) => {
   try {
-    const response = await fetch("/api/login", {
+    /*const response = await fetch("/api/login", {
       method: "POST",
       body: {
         email,
@@ -15,7 +15,10 @@ const signIn = async (email, password) => {
       }
     });
     const data = response.json();
-    state.token = data.token;
+    state.token = data.token;*/
+    state.token = await Promise.resolve(
+      `token string go here for email ${email} and ${password}`
+    );
   } catch (error) {
     state.error = error;
   }

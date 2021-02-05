@@ -1,15 +1,26 @@
 <template>
-  <div ckass="modal fade" id="signInModal">
+  <div
+    class="modal fade"
+    id="signInModal"
+    aria-labelledby="signInModalLabel"
+    aria-hidden="true"
+  >
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-      <div class="modal-cotent">
+      <div class="modal-content ">
         <div class="modal-header">
-          <h5 class="modal-title" id="signInModalLabel">
-            <p v-if="modeView === 'sign-up'">
-              Sign Up
-            </p>
-            <p v-else-if="modeView === 'sign-in'">
-              Sign In
-            </p>
+          <h5
+            v-if="modeView === 'sign-up'"
+            class="modal-title"
+            id="signInModalLabel"
+          >
+            Sign Up
+          </h5>
+          <h5
+            v-else-if="modeView === 'sign-in'"
+            class="modal-title"
+            id="signInModalLabel"
+          >
+            Sign In
           </h5>
           <button
             type="button"
@@ -74,17 +85,22 @@ export default {
     const password = ref(null);
     const username = ref(null);
     const modeView = ref(props.mode);
-    const loading = false;
+    const loading = ref(false);
 
-    const { signIn, isSignIn, error } = inject("auth");
+    const { signIn, error } = inject("auth");
     const signInUser = async () => {
       loading.value = true;
       await signIn(email, password);
+      loading.value = false;
     };
+    /*const signUpUser = async () => {
+      loading.value = true;
+      await signUp(username, email, password);
+      loading.value = false;
+    };*/
 
     return {
       signInUser,
-      isSignIn,
       error,
       email,
       password,
