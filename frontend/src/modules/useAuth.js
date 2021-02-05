@@ -2,7 +2,7 @@ import { reactive, readonly, computed } from "vue";
 
 const state = reactive({
   token: "",
-  error: {}
+  error: null
 });
 
 const signIn = async (email, password) => {
