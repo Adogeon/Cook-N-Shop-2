@@ -1,9 +1,10 @@
 <template>
   <div
     class="modal fade"
-    id="signInModal"
-    aria-labelledby="signInModalLabel"
+    id="authModal"
+    aria-labelledby="authModalLabel"
     aria-hidden="true"
+    ref="modalRoot"
   >
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
       <div class="modal-content ">
@@ -59,7 +60,9 @@
           >
             Close
           </button>
-          <button type="button" class="btn btn-primary">Confirm</button>
+          <button type="button" class="btn btn-primary" @click="signInUser">
+            Confirm
+          </button>
         </div>
       </div>
     </div>
@@ -67,7 +70,8 @@
 </template>
 
 <script>
-import { inject, ref } from "vue";
+import { inject, onMounted, ref, watchEffect } from "vue";
+import { Modal } from "bootstrap";
 
 export default {
   name: "SignInModal",
@@ -86,12 +90,29 @@ export default {
     const username = ref(null);
     const modeView = ref(props.mode);
     const loading = ref(false);
+    const modalRoot = ref(null);
+    let authModal = null;
+    onMounted(() => {
+      console.log(modeView);
+      console.log(modalRoot)
+      console.log(modalRoot.value);
+      authModal = new Modal(document.getElementById("authModal"));
+    });
 
-    const { signIn, error } = inject("auth");
+    watchEffect(() => {
+        console.log(modalRoot.value) // => <div></div>
+      }, 
+      {
+        flush: 'post'
+      })
+
+    const { signIn, error, isSignIn } = inject("auth");
     const signInUser = async () => {
       loading.value = true;
       await signIn(email, password);
       loading.value = false;
+      console.log(isSignIn.value);
+      authModal.hide();
     };
     /*const signUpUser = async () => {
       loading.value = true;

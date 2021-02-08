@@ -6,14 +6,13 @@
 <script>
 import NavigationBar from "@/components/NavigationBar.vue";
 import global from "@/modules/global.js";
-import { provide } from "vue";
 
 export default {
   components: {
     NavigationBar
   },
-  setup() {
-    provide("auth", global.auth);
+  provide:{
+    auth: global.auth,
   }
 };
 </script>

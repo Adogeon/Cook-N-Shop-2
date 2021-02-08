@@ -27,7 +27,7 @@
           <li class="nav-item dropdown">
             <a class="nav-link" href="/grocery-list">Grocery List</a>
           </li>
-          <li v-if="isSignIn" class="nav-item dropdown">
+          <li v-if="auth.isSignIn.value" class="nav-item dropdown">
             <a
               class="nav-link dropdown-toggle"
               href="#"
@@ -59,7 +59,7 @@
             <button
               class="button btn-primary"
               data-bs-toggle="modal"
-              data-bs-target="#signInModal"
+              data-bs-target="#authModal"
             >
               Sign In
             </button>
@@ -73,16 +73,12 @@
 
 <script>
 import signInModal from "./modals/SignInModals.vue";
-import { inject } from "vue";
+
 export default {
   name: "navigation-bar",
   components: {
     "sign-in-modal": signInModal
   },
-  setup() {
-    const { isSignUp } = inject("auth");
-
-    return { isSignUp };
-  }
+  inject:["auth"]
 };
 </script>
