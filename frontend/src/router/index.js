@@ -41,14 +41,14 @@ const routes = [
     component: () => import("../views/Setting.vue")
   },
   {
-    path: "/calendar-prop",
-    name: "CalendarProp",
-    component: () => import("../views/prop.vue")
-  },
-  {
     path: "/grocery-list",
     name: "GroceryList",
     component: () => import("../views/GroceryList.vue")
+  },
+  {
+    path: "/plan",
+    name: "Plan",
+    component: () => import("../views/Plan.vue")
   }
 ];
 

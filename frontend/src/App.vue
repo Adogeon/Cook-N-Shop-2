@@ -1,6 +1,6 @@
 <template>
   <navigation-bar />
-  <router-view />
+  <router-view class="container" />
 </template>
 
 <script>
@@ -11,8 +11,8 @@ export default {
   components: {
     NavigationBar
   },
-  provide:{
-    auth: global.auth,
+  provide: {
+    auth: global.auth
   }
 };
 </script>
@@ -24,5 +24,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  background: url("./assets/hotel-wallpaper.png") repeat 0 0;
 }
 </style>

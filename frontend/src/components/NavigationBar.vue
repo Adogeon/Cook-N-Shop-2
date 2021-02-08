@@ -49,8 +49,13 @@
               </li>
               <li><hr class="dropdown-divider" /></li>
               <li>
-                <router-link class="nav-link" to="/logout" tabindex="-1"
-                  >Log Out</router-link
+                <button
+                  class="button btn-danger"
+                  tabindex="-1"
+                  @click="auth.signOut"
+                >
+                  Log Out
+                </button>
                 >
               </li>
             </ul>
@@ -79,6 +84,6 @@ export default {
   components: {
     "sign-in-modal": signInModal
   },
-  inject:["auth"]
+  inject: ["auth"]
 };
 </script>

@@ -1,30 +1,26 @@
 <template>
-  <ul class="list-group list-group-horizontal">
-    <li v-for="recipe in recipeList" :key="recipe.id">
-      <div class="card">
-        <div class="card-header">
-          <h5>{{ recipe.name }}</h5>
-        </div>
-        <div class="card-body">
+  <div class="container bd-2">
+    <h4>{{ listTitle.toUpperCase() }}</h4>
+    <div class="card-group">
+      <div
+        class="card me-3"
+        style="max-width:150px"
+        v-for="recipe in recipeList"
+        :key="recipe.id"
+      >
+        <router-link :to="{ name: 'RecipeDetail', params: { id: recipe.id } }">
           <img
             src="https://picsum.photos/150"
-            class="image-thumbnail"
+            class="card-img-top"
             alt="recipe-thumbnail"
           />
-        </div>
-        <div class="card-footer">
-          <div class="row justify-space-between">
-            <router-link
-              :to="{ name: 'RecipeDetail', params: { id: recipe.id } }"
-              >View Full Recipe</router-link
-            >
-            <button>Add to Grocery</button>
-            <button>Save</button>
+          <div class="card-body">
+            <h5 class="card-title">{{ recipe.name }}</h5>
           </div>
-        </div>
+        </router-link>
       </div>
-    </li>
-  </ul>
+    </div>
+  </div>
 </template>
 
 <script>

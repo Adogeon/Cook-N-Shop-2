@@ -41,11 +41,17 @@ const signUp = async (username, email, password) => {
   }
 };
 
+const signOut = () => {
+  state.token = "";
+  state.error = null;
+};
+
 const isSignIn = computed(() => state.token !== "");
 
 export default {
   ...readonly(state),
   isSignIn,
   signIn,
-  signUp
+  signUp,
+  signOut
 };

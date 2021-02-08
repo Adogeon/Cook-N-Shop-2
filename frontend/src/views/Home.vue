@@ -1,21 +1,28 @@
 <template>
-  <div class="home">
+  <div class="home ">
     <img alt="Vue logo" src="../assets/logo.png" />
-    <plan-calendar />
+    <div v-if="auth.isSignIn.value">
+      Welcome back, User
+    </div>
+    <recipe-list
+      :listTitle="'new'"
+      :recipeList="[
+        { id: 1, name: 'Omelete' },
+        { id: 2, name: 'Oatmeal' },
+        { id: 3, name: 'Braised Pork' }
+      ]"
+    />
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import PlanCalendar from "../components/PlanView.vue";
-import { inject } from "vue";
+import RecipeListVue from "../components/RecipeList.vue";
+
 export default {
   name: "Home",
-  components: { "plan-calendar": PlanCalendar },
-  setup() {
-    const { isSignIn } = inject("auth");
-
-    return { isSignIn };
-  }
+  components: { "recipe-list": RecipeListVue },
+  inject: ["auth"]
 };
 </script>
+
+<style scoped></style>

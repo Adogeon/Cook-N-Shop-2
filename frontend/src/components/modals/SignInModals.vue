@@ -94,17 +94,19 @@ export default {
     let authModal = null;
     onMounted(() => {
       console.log(modeView);
-      console.log(modalRoot)
+      console.log(modalRoot);
       console.log(modalRoot.value);
       authModal = new Modal(document.getElementById("authModal"));
     });
 
-    watchEffect(() => {
-        console.log(modalRoot.value) // => <div></div>
-      }, 
+    watchEffect(
+      () => {
+        console.log(modalRoot.value); // => <div></div>
+      },
       {
-        flush: 'post'
-      })
+        flush: "post"
+      }
+    );
 
     const { signIn, error, isSignIn } = inject("auth");
     const signInUser = async () => {
