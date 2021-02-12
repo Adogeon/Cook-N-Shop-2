@@ -1,5 +1,5 @@
 <template>
-  <div class="recipe container">
+  <div class="recipe card">
     <div v-if="loading" class="loading">
       Loading...
     </div>

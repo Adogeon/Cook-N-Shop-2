@@ -1,5 +1,5 @@
 <template>
-  <div class="home ">
+  <div class="my-3">
     <img alt="Vue logo" src="../assets/logo.png" />
     <div v-if="auth.isSignIn.value">
       <h2>Welcome back, User</h2>

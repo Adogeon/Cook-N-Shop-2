@@ -1,6 +1,6 @@
 <template>
   <navigation-bar />
-  <router-view class="container" />
+  <router-view />
 </template>
 
 <script>
@@ -25,5 +25,6 @@ export default {
   text-align: center;
   color: #2c3e50;
   background: url("./assets/hotel-wallpaper.png") repeat 0 0;
+  min-height: 100vh;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="recipes-page">
+  <div class="shadow bg-light py-5 my-3">
     <h1>This is the list of recipes</h1>
     <div>
       <h3>Note</h3>
@@ -9,17 +9,25 @@
         recipe
       </ul>
     </div>
-    <ul id="recipe-list">
-      <li v-for="recipe in recipes" :key="recipe.id">
-        <recipe-card v-bind="recipe" />
-      </li>
-    </ul>
+    <div class="row">
+      <search-bar />
+    </div>
+    <div class="card bg-transparent pt-3 px-3 mx-3 rounded-0 shadow container">
+      <div class="row gx-2 gy-3">
+        <recipe-card
+          v-for="recipe in recipes"
+          :key="recipe.id"
+          v-bind="recipe"
+        />
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-//import { getAllRecipes } from "../utils/query";
-import RecipeCard from "../components/RecipeCard.vue";
+import {ref} from "vue";
+import RecipeListVue from '../components/RecipeList.vue';
+import SearchBarVue from "../components/SearchBar.vue";
 
 const getAllRecipes = async () => {
   return Promise.resolve({
@@ -32,14 +40,13 @@ const getAllRecipes = async () => {
 };
 
 export default {
-  components: { RecipeCard },
+  components: {"search-bar": SearchBarVue, "recipe-list": RecipeListVue },
   name: "Recipes",
-  data() {
-    return {
-      loading: false,
-      recipes: null,
-      error: null
-    };
+  setup() {
+    const filter = ref("");
+    const recipeList = ref([]);
+    const loading = ref(null);
+    return {filter, recipeList, loading}
   },
   created() {
     //fetch the recipes when the view is screated
@@ -47,25 +54,11 @@ export default {
   },
   methods: {
     async fetchRecipe() {
-      this.error = this.post = null;
-      this.loading = true;
+      loading.value = true;
       const result = await getAllRecipes();
-      this.recipes = result.recipes;
-      this.loading = false;
+      recipeList.value = result.recipes;
+      loading.value = false;
     }
   }
 };
 </script>
-
-<style scoped>
-#recipe-list {
-  display: flex;
-  flex-flow: row;
-  list-style: none;
-}
-
-#recipe-list > li {
-  margin: 0 2em;
-  display: inline;
-}
-</style>

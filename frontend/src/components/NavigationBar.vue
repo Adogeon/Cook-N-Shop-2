@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <nav class="navbar navbar-expand-lg navbar-info bg-info">
     <div class="container-fluid">
       <router-link class="navbar-brand" to="/">Cook-n-Shop</router-link>
       <button
@@ -18,14 +18,16 @@
         id="navbarSupportedContent"
       >
         <ul class="navbar-nav me-2 mb-2 mb-lg-0">
-          <li class="nav-item dropdown">
+          <li v-if="auth.isSignIn.value" class="nav-item dropdown">
             <router-link class="nav-link" to="/plan">Plan</router-link>
           </li>
           <li class="nav-item dropdown">
             <router-link class="nav-link" to="/recipes">Recipes</router-link>
           </li>
           <li class="nav-item dropdown">
-            <a class="nav-link" href="/grocery-list">Grocery List</a>
+            <router-link class="nav-link" to="/grocery-list"
+              >Grocery List</router-link
+            >
           </li>
           <li v-if="auth.isSignIn.value" class="nav-item dropdown">
             <a
@@ -50,7 +52,7 @@
               <li><hr class="dropdown-divider" /></li>
               <li>
                 <button
-                  class="button btn-danger"
+                  class="dropdown-item"
                   tabindex="-1"
                   @click="auth.signOut"
                 >
@@ -62,7 +64,7 @@
           </li>
           <li v-else>
             <button
-              class="button btn-primary"
+              class="btn btn-success btn-outline"
               data-bs-toggle="modal"
               data-bs-target="#authModal"
             >

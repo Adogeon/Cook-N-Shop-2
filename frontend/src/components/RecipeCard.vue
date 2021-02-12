@@ -1,14 +1,15 @@
 <template>
-  <div class="card" style="width: 18rem;">
+  <div
+    class="card p-0 rounded-0 shadow-sm col-sm-6 col-md-3"
+  >
     <img
-      src="https://picsum.photos/200/300"
-      class="card-img-top"
+      src="http://lorempixel.com/200/150/food"
+      class="card-img-top img-fluid"
       alt="recipe-image"
     />
     <div class="card-body">
-      <h5 class="card-title">{{ name }}</h5>
-      <p class="card-text">{{ description }}</p>
-      <a v-bind:href="link" class="btn btn-primary">Check it out</a>
+      <h5 class="card-title">{{ recipeDetail.name }}</h5>
+      <a :href="recipeDetail.link" class="btn btn-link">Check it out</a>
     </div>
   </div>
 </template>
@@ -16,16 +17,7 @@
 <script>
 export default {
   name: "RecipeCard",
-  props: ["name", "description", "link"]
+  props: ["recipeDetail"]
 };
 </script>
 
-<style scoped>
-.recipe-card {
-  display: flex;
-  flex-flow: column;
-  width: 10em;
-  height: 15em;
-  border: 2px solid black;
-}
-</style>
