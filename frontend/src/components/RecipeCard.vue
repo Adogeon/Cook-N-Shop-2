@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="card p-0 rounded-0 shadow-sm col-sm-6 col-md-3"
-  >
+  <div class="recipe-card card p-0 rounded-0 shadow-sm col-sm-6 col-md-3">
     <img
       src="http://lorempixel.com/200/150/food"
       class="card-img-top img-fluid"
@@ -20,4 +18,3 @@ export default {
   props: ["recipeDetail"]
 };
 </script>
-
