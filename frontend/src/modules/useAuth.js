@@ -7,15 +7,6 @@ const state = reactive({
 
 const signIn = async (email, password) => {
   try {
-    /*const response = await fetch("/api/login", {
-      method: "POST",
-      body: {
-        email,
-        password
-      }
-    });
-    const data = response.json();
-    state.token = data.token;*/
     state.token = await Promise.resolve(
       `token string go here for email ${email} and ${password}`
     );
