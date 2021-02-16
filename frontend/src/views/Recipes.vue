@@ -165,12 +165,12 @@ export default {
 
     let timeoutRef = null;
     const setFilter = text => {
-      if(timeoutRef !== null) {
+      if (timeoutRef !== null) {
         clearTimeout(timeoutRef);
       }
       timeoutRef = setTimeout(() => {
         filter.value = text;
-      }, 800)
+      }, 800);
     };
 
     onMounted(async () => {

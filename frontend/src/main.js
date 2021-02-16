@@ -5,14 +5,14 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { createApp } from "vue";
 import App from "./App.vue";
 import router from "./router";
-import urql from "@urql/vue"
+import urql from "@urql/vue";
 
 const app = createApp(App);
 
 app.use(router);
 
 app.use(urql, {
-  url: "/api/playground",
+  url: "/api/playground"
   /**
    * fetchOptions: () => {
    *  const token = getToken();
@@ -24,4 +24,3 @@ app.use(urql, {
 });
 
 app.mount("#app");
-
